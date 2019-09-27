@@ -46,17 +46,17 @@ def checkUser(email:str, pwhash:str):
     '''
     post = {'email': email, 'pwhash': pwhash}
     from pymongo import MongoClient
+    print(post)
     client = MongoClient('localhost', 27017)
     db = client.webusers
     collection = db.users
     finded = collection.find_one(post)
     if  finded is None:
-        return json({'Result' : False, 'What':'Пользователь не существует'})
+        return False
     else:
         if finded['pwhash'] != pwhash:
-            return json({'Result' : False, 'What':'Неверный пароль'})
-        return json({'Result' : True, 'What':None})
-
+            return False
+        return True
 @app.route('/api/user/register')
 def userRegister():
     # url /user/register?email=example@example.com&pwhash=AAAAAAAAAA&fio=ArthurKhakimovMarathovich
@@ -74,8 +74,8 @@ def userLogin():
     email = request.args.get('email')
     pwhash = request.args.get('pwhash')
     if checkUser(email, pwhash):
-        return True
-    return False
+        return json({'Result' : True, 'What': None})
+    return json({'Result' : False, 'What':'Неверный пароль'})
 
-# @app.route()
+
 app.run()
