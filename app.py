@@ -68,6 +68,7 @@ def userRegister():
     except Exception:
         return json({'Result' : False, 'What' : 'Пользователь уже существуют'})
     return json({'Result' : True, 'What' : None})
+
 @app.route('/api/user/login')
 def userLogin():
     # url /user/login?email=example@example.com&pwhash=AAAAAAAAAA
@@ -78,4 +79,4 @@ def userLogin():
     return json({'Result' : False, 'What':'Неверный пароль'})
 
 
-app.run()
+app.run(debug=True, host="0.0.0.0")
