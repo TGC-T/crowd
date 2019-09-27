@@ -1,0 +1,75 @@
+* {
+	margin: 0;
+	padding: 0;
+
+	font: bold 12pt "PT Sans";
+}
+
+.left {
+	float: left;
+	width: 220px;
+	padding-left: 240px;
+}
+
+.right {
+	float: right;
+	width: 220px;
+	padding-right: 240px;
+}
+
+.content {
+	background-color: magenta;
+	margin: 0 480px;
+	padding: 0 20px;
+}
+
+.nav-menu ul {
+	list-style-type: none;
+}
+
+.nav-menu ul li a {
+	background-color: red;
+	display: block;
+	color: black;
+	text-decoration: none;
+	padding: 10px;
+}
+
+.nav-menu ul li a:hover {
+	background-color: yellow;
+	text-decoration: underline;
+}
+
+.problem-info {
+	background-color: orange;
+	border-radius: 3px;
+	padding: 10px 20px;
+	margin-bottom: 20px;
+}
+
+.progress-bar {
+	background-color: red;
+	height: 30px;
+	width: 80%;
+	border-radius: 3px;
+}
+
+.progress-bar div {
+	background-color: green;
+	border-radius: 3px;
+	display: block;
+	height: 100%;
+	position: relative;
+	width: 25%;
+}
+
+.progress-bar p {
+	position: relative;
+	left: 50%;
+	top: -50%;
+	transform: translate(0, -50%);
+}
+
+.clearfix {
+	clear: both;
+}
