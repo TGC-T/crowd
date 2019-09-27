@@ -38,7 +38,6 @@ def checkUser(email: str, pwhash: str):
     '''
     post = {'email': email, 'pwhash': pwhash}
     from pymongo import MongoClient
-    print(post)
     client = MongoClient('localhost', 27017)
     db = client.webusers
     collection = db.users
@@ -50,6 +49,14 @@ def checkUser(email: str, pwhash: str):
             return False
         return True
 
+def findUser(email):
+    from pymongo import MongoClient
+    client = MongoClient('localhost', 27017)
+    db = client.webusers
+    collection = db.users
+    name = {'email' : email}
+    return collection.find_one(name) is not None
+        
 
 @app.route('/api/user/register')
 def userRegister():
@@ -57,6 +64,8 @@ def userRegister():
     email = request.args.get('email')
     pwhash = request.args.get('pwhash')
     fio = request.args.get('fio')
+    if findUser(email):
+        return json({'Result': False, 'What':'Пользователь уже существуеют'})
     try:
         registerUser(email, pwhash, fio)
     except Exception:
@@ -97,6 +106,7 @@ def modCrowd(field):
     collection.update_one(find, newvalue)
     return json({"Result": True, "What": None})
 
+
 @app.route('/api/crowd/get/<field>')
 def getCrowd(field):
     #/api/crowd/get/name?value=Test
@@ -105,7 +115,9 @@ def getCrowd(field):
     db = client.posts
     collection = db.tasks
     post = {field: request.args.get('value')}
+    collection.find_one()
     return str(collection.find_one(post))
+
 
 @app.route('/api/crowd/getall')
 def getall():
@@ -119,8 +131,6 @@ def getall():
                 'amounttoget': i['amounttoget'], 'wegot': i['wegot'], 'urgency': i['urgency']}
         result.append(post)
     return json(result)
-
-
 
 
 app.run(debug=True, host="0.0.0.0")
