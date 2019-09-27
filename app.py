@@ -50,9 +50,11 @@ def checkUser(email:str, pwhash:str):
     db = client.webusers
     collection = db.users
     finded = collection.find_one(post)
-    if finded['pwhash'] != pwhash or  finded is None:
+    if  finded is None:
         return False
     else:
+        if finded['pwhash'] != pwhash:
+            return False
         return True
 
 @app.route('/api/user/register')
@@ -67,10 +69,13 @@ def userRegister():
         return json({'Result' : False, 'What' : 'Пользователь уже существуют'})
     return json({'Result' : True, 'What' : None})
 @app.route('/api/user/login')
-def userlogin():
-    # url /user/register?email=example@example.com&pwhash=AAAAAAAAAA
+def userLogin():
+    # url /user/login?email=example@example.com&pwhash=AAAAAAAAAA
     email = request.args.get('email')
     pwhash = request.args.get('pwhash')
     if checkUser(email, pwhash):
         return True
     return False
+
+# @app.route()
+app.run()
