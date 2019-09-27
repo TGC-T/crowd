@@ -85,9 +85,9 @@ def addCrowd():
     return json({"Result": True, "What": None})
 
 
-@app.route('/api/crowd/modify/<field>')
+@app.route('/api/crowd/set/<field>')
 def modCrowd(field):
-    # /api/crowd/modify/name?old=Test&new=Test1
+    # /api/crowd/set/name?old=Test&new=Test1
     from pymongo import MongoClient
     client = MongoClient('localhost', 27017)
     db = client.posts
@@ -97,12 +97,30 @@ def modCrowd(field):
     collection.update_one(find, newvalue)
     return json({"Result": True, "What": None})
 
-# @app.route('/api/crowd/get/<field>')
-# def getCrowd(field):
-#     from pymongo import MongoClient
-#     client = MongoClient('localhost', 27017)
-#     db = client.posts
-#     collection = db.tasks
+@app.route('/api/crowd/get/<field>')
+def getCrowd(field):
+    #/api/crowd/get/name?value=Test
+    from pymongo import MongoClient
+    client = MongoClient('localhost', 27017)
+    db = client.posts
+    collection = db.tasks
+    post = {field: request.args.get('value')}
+    return str(collection.find_one(post))
+
+@app.route('/api/crowd/getall')
+def getall():
+    from pymongo import MongoClient
+    client = MongoClient('localhost', 27017)
+    db = client.posts
+    collection = db.tasks
+    result = []
+    for i in collection.find({}):
+        post = {'name': i['name'], 'description': i['description'],
+                'amounttoget': i['amounttoget'], 'wegot': i['wegot'], 'urgency': i['urgency']}
+        result.append(post)
+    return json(result)
+
+
 
 
 app.run(debug=True, host="0.0.0.0")
