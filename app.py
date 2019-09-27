@@ -51,11 +51,11 @@ def checkUser(email:str, pwhash:str):
     collection = db.users
     finded = collection.find_one(post)
     if  finded is None:
-        return False
+        return json({'Result' : False, 'What':'Пользователь не существует'})
     else:
         if finded['pwhash'] != pwhash:
-            return False
-        return True
+            return json({'Result' : False, 'What':'Неверный пароль'})
+        return json({'Result' : True, 'What':None})
 
 @app.route('/api/user/register')
 def userRegister():
