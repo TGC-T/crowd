@@ -78,5 +78,25 @@ def userLogin():
         return json({'Result' : True, 'What': None})
     return json({'Result' : False, 'What':'Неверный пароль'})
 
+@app.route('/api/crowd/add')
+def addCrowd():
+    #post = {'name':name, 'description': description, 'amounttoget': amounttoget, 'wegot':0, 'urgency':urgency, 'iscomplete':False}
+    name = request.args.get('name')
+    description = request.args.get('description')
+    amounttoget = request.args.get('amounttoget')
+    urgency = request.args.get('amounttoget')
+    post_id = addcrowdposttodb(name, description, int(amounttoget), int(urgency))
+    return json(post_id)
+
+@app.route('/api/crowd/modify')
+def modCrowd():
+    from pymongo import MongoClient
+    client = MongoClient('localhost', 27017)
+    db = client.posts
+    collection = db.tasks
+    name = request.args.get('name')
+    post_id = collection.find_one({'name':name})
+    modcrowdpost(post_id, int(request.args.get('amounttoget')))
+
 
 app.run(debug=True, host="0.0.0.0")
