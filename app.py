@@ -85,8 +85,8 @@ def addCrowd():
     description = request.args.get('description')
     amounttoget = request.args.get('amounttoget')
     urgency = request.args.get('amounttoget')
-    post_id = addcrowdposttodb(name, description, int(amounttoget), int(urgency))
-    return json(post_id)
+    addcrowdposttodb(name, description, int(amounttoget), int(urgency))
+    return json({"Result" : True, "What" : None})
 
 @app.route('/api/crowd/modify')
 def modCrowd():
@@ -97,6 +97,6 @@ def modCrowd():
     name = request.args.get('name')
     post_id = collection.find_one({'name':name})
     modcrowdpost(post_id, int(request.args.get('amounttoget')))
-
+    return json({"Result" : True, "What" : None})
 
 app.run(debug=True, host="0.0.0.0")
