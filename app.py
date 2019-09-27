@@ -5,6 +5,27 @@ from json import dumps as json
 app = Flask(__name__)
 
 
+def checkInput(FirstName, LastName, Email):
+    IncorrectInput = []
+
+    if not FirstName.isalpha() or not 0 <= len(FirstName):
+        IncorrectInput.append('FirstName')
+
+    if 0 <= len(LastName):
+        for LastNames in LastName.split('-', 1):
+            if not LastNames.isalpha():
+                IncorrectInput.append('LastName')
+                break
+    else:
+        IncorrectInput.append('LastName')
+
+    if not '@' in Email:
+        IncorrectInput.append('Email')
+
+    if (len(IncorrectInput) == 0):
+        return True
+    return IncorrectInput
+
 def addcrowdposttodb(name: str, description: str, amounttoget: float, urgency: int):
     '''
     Добавляет краудфанд в базу с нулевым балансом
@@ -64,6 +85,8 @@ def userRegister():
     email = request.args.get('email')
     pwhash = request.args.get('pwhash')
     fio = request.args.get('fio')
+    if checkInput(fio.split()[0],fio.split()[1], email) != True:
+        return json({'Result': False, 'What':'Пользователь уже существуеют'})
     if findUser(email):
         return json({'Result': False, 'What':'Пользователь уже существуеют'})
     try:
