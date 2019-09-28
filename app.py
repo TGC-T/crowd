@@ -185,7 +185,9 @@ def contact():
         year=datetime.now().year,
         message='Your contact page.'
     )
-
+@app.route('/login')
+def login():
+    return render_template('login.html')
 @app.route('/about')
 def about():
     """Renders the about page."""
