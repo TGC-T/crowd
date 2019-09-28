@@ -25,11 +25,6 @@ def checkInput(FirstName, LastName, Email):
         return True
     return IncorrectInput
 
-# def getCurrentid():
-#     client = MongoClient('localhost', 27017)
-#     db = client.posts
-#     collection = db.indexes
-
 
 def addcrowdposttodb(name: str, description: str, amounttoget: float):
     '''
