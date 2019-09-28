@@ -109,11 +109,7 @@ def login():
 
 def addCrowd(name,description,amounttoget,org):
     #post = {'name':name, 'description': description, 'amounttoget': amounttoget, 'wegot':0, 'iscomplete':False, my_id: 4}
-    name = request.args.get('name')
-    description = request.args.get('description')
-    amounttoget = request.args.get('amounttoget')
-    org = request.args.get('obj')
-    addcrowdposttodb(name, description, org, amounttoget)
+    addcrowdposttodb(name, description, org, int(amounttoget))
     
 
 
