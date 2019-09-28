@@ -1,5 +1,7 @@
 from flask import Flask
 from flask import render_template
+from flask import redirect
+from flask import url_for
 from flask import request
 from json import dumps as json
 from datetime import datetime
@@ -29,7 +31,7 @@ def addcrowdposttodb(name: str, description: str, org: str, amounttoget: float):
     '''
     Добавляет краудфанд в базу с нулевым балансом
     '''
-    post = {'name': name, 'description': description, 'amounttoget': amounttoget,'org' : org,
+    post = {'name': name, 'description': description, 'amounttoget': amounttoget, 'org': org,
             'wegot': 0, 'iscomplete': False}
     from pymongo import MongoClient
     client = MongoClient('localhost', 27017)
@@ -39,11 +41,11 @@ def addcrowdposttodb(name: str, description: str, org: str, amounttoget: float):
     return post_id
 
 
-def registerUser(email: str, pwhash: str, fio: str):
+def registerUser(email: str, password: str, fio: str):
     '''
     регистрация пользователя
     '''
-    post = {'email': email, 'pwhash': pwhash, 'fio': fio}
+    post = {'email': email, 'password': password, 'fio': fio}
     from pymongo import MongoClient
     client = MongoClient('localhost', 27017)
     db = client.webusers
@@ -52,22 +54,21 @@ def registerUser(email: str, pwhash: str, fio: str):
     return post_id
 
 
-def checkUser(email: str, pwhash: str):
+def checkUser(email: str, password: str):
     '''
     проверка сущ пользьзователя
     '''
-    post = {'email': email, 'pwhash': pwhash}
+    post = {'email': email, 'password': password}
     from pymongo import MongoClient
     client = MongoClient('localhost', 27017)
     db = client.webusers
     collection = db.users
     finded = collection.find_one(post)
-    if finded is None:
+    if finded == None:
         return False
-    else:
-        if finded['pwhash'] != pwhash:
-            return False
-        return True
+    if finded['password'] != password:
+        return False
+    return True
 
 def findUser(email):
     from pymongo import MongoClient
@@ -80,29 +81,30 @@ def findUser(email):
 
 @app.route('/api/user/register')
 def userRegister():
-    # url /user/register?email=example@example.com&pwhash=AAAAAAAAAA&fio=ArthurKhakimovMarathovich
+    # url /user/register?email=example@example.com&password=AAAAAAAAAA&fio=ArthurKhakimovMarathovich
     email = request.args.get('email')
-    pwhash = request.args.get('pwhash')
+    password = request.args.get('password')
     fio = request.args.get('fio')
     if checkInput(fio.split()[0],fio.split()[1], email) != True:
         return json({'Result': False, 'What':'Пользователь уже существуеют'})
     if findUser(email):
         return json({'Result': False, 'What':'Пользователь уже существуеют'})
     try:
-        registerUser(email, pwhash, fio)
+        registerUser(email, password, fio)
     except Exception:
         return json({'Result': False, 'What': 'Пользователь уже существуют'})
     return json({'Result': True, 'What': None})
 
 
-@app.route('/api/user/login')
-def userLogin():
-    # url /user/login?email=example@example.com&pwhash=AAAAAAAAAA
-    email = request.args.get('email')
-    pwhash = request.args.get('pwhash')
-    if checkUser(email, pwhash):
-        return json({'Result': True, 'What': None})
-    return json({'Result': False, 'What': 'Неверный пароль'})
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    error = None
+    if request.method == 'POST':
+        if checkUser(request.form['username'],request.form['password']) != True :
+            error = 'Неверные авторизация.'
+        else:
+            return redirect(url_for('home'))
+    return render_template('login.html', error=error)
 
 
 @app.route('/api/crowd/add')
@@ -185,13 +187,7 @@ def contact():
         year=datetime.now().year,
         message='Your contact page.'
     )
-@app.route('/login', methods = ['POST', 'GET'])
-def login():
-    if request.method = 'POST':
-        user = request.form['login']
-        password = request.form['password']
-        
-    return render_template('login.html')
+
 @app.route('/about')
 def about():
     """Renders the about page."""
