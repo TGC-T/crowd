@@ -30,7 +30,7 @@ def userRegister():
         username = request.form['username']
         password = request.form['password']
         fio = request.form['fio']
-        post = {'usermail': username, 'fio': fio, 'password': password, 'isadmin':False}
+        post = {'username': username, 'fio': fio, 'password': password, 'isadmin':False}
         from pymongo import MongoClient
         client = MongoClient('localhost', 27017)
         db = client.webusers
@@ -208,14 +208,13 @@ def about():
 def showComments(crowdObject_id):
     from pymongo import MongoClient
     client = MongoClient('localhost', 27017)
-    collection = client.comments.forum
+    db = client.comments
+    collection = db.forum
     comments = []
     for i in collection.find({'crowdid': crowdObject_id}):
         comments.append(i)
     return comments
-
-
-@app.route('/crowd/<id_str>')
+@app.route('/crowd/<id_str>', methods=['GET', 'POST'])
 def showCrowd(id_str):
     from bson.objectid import ObjectId
     from pymongo import MongoClient
@@ -224,6 +223,14 @@ def showCrowd(id_str):
     collection = db.tasks
     crowd_id = ObjectId(id_str)
     finded = collection.find_one({"_id": crowd_id})
+    if request.method == 'POST':
+        from pymongo import MongoClient
+        client = MongoClient('localhost', 27017)
+        db = client.comments
+        collection = db.forum
+        comment =request.form['text']
+        name = request.form['username']
+        collection.insert_one({'author':name,'comment':comment,'crowdid':crowd_id})
     return render_template('crowd.html', importance=finded['importance'], donate=finded['donate'], 
     year=datetime.now().year, comments=showComments(crowd_id), title=finded['name'], name=finded['name'], 
     description=finded['description'], need=finded['amounttoget'], wegot=finded['wegot'], 

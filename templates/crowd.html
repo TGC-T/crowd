@@ -8,19 +8,26 @@
 <p>Необходимо собрать {{ need }}</p>
 <p>Собранно {{ wegot }}</p>
 <p>Осталось {{need - wegot}}</p>
+<p>importance {{importance}}</p>
 <div class="progress">
         <div class="progress-bar" role="progressbar" style="width: {{persent}}%;" aria-valuenow="{{persent}}" aria-valuemin="0" aria-valuemax="100">{{persent}}%</div>
 </div>
 <a href="{{ donate }}"" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Пожертвовать</a>
-<p>importance {{importance}}</p>
+
+
+<form action="" method="post">
+        <input type="text" placeholder="Никнейм" style="border: 1px solid #adadad; border-radius: 4px; padding: 5px;"
+        name="username" value="{{
+          request.form.username }}">
+    <p><textarea rows="10" placeholder="Введите ваш комментарий" value="{{
+        request.form.textarea }}"  cols="45" style="max-width: 100%; border: 1px solid #adadad; border-radius: 4px; padding: 5px;" name="text"></textarea></p>
+    <input class="btn btn-primary btn-lg active" type="submit" value="Отправить">
+  </form>
 {% for com in comments %}
-    <div class="col-md-5">
         <h2>{{com.author}}</h2>
         <p>
                 {{com.comment}}
-        </p>
         <hr noshade="true" size="300px">
-    </div>
 {% endfor %}
 
 {% endblock %}
