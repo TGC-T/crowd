@@ -1,0 +1,106 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    padding-bottom: 10px;
+}
+
+.wrapper {
+    padding: 0 180px;
+}
+
+.my-container {
+    background-position: center;
+    height: 350px;
+    padding-bottom: 10px;
+}
+
+.first-container {
+    margin-top: 10px;
+}
+
+.image {
+    background-image: url('homepage-header.jpg');
+    height: 100%;
+    width: 60%;
+}
+
+.text {
+    height: 100%;
+    text-align: justify;
+    overflow: auto;
+    padding: 8px;
+}
+
+.heading {
+    height: 100px;
+    position: relative;
+}
+
+.heading div {
+    position: absolute;
+    min-height: 100%;
+    overflow: auto;
+    overflow-wrap: break-word;
+    padding: 10px 0 0 0;
+    text-align: center;
+}
+
+.heading div img {
+    padding-bottom: 10px;
+}
+
+.col1 {
+    width: 33%;
+}
+
+.col2 {
+    left: 33%;
+    width: 34%;
+}
+
+.col3 {
+    right: 0;
+    width: 33%;
+}
+
+.bottom-text {
+    color: white;
+    padding: 40px 100px;
+}
+
+.bottom-text p {
+    padding-top: 60px;
+    text-align: justify;
+}
+
+.bottom-button {
+    position: relative;
+}
+
+.bottom-button a {
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 4px;
+    color: white;
+    display: block;
+    font-size: 16pt;
+    margin: 10px;
+    padding: 18px;
+    position: absolute;
+    left: 50%;
+    text-align: center;
+    transform: translate(-50%, -50%);
+    margin-right: -50%;
+    /*width: 100px;*/
+}
+
+.bottom-button a:hover {
+    background-color: rgba(0, 0, 0, 0.7);
+    text-decoration: none;
+}
+
+.clearfix {
+    clear: both;
+}
