@@ -25,11 +25,11 @@ def checkInput(FirstName, LastName, Email):
     return IncorrectInput
 
 
-def addcrowdposttodb(name: str, description: str, amounttoget: float):
+def addcrowdposttodb(name: str, description: str, org: str, amounttoget: float):
     '''
     Добавляет краудфанд в базу с нулевым балансом
     '''
-    post = {'name': name, 'description': description, 'amounttoget': amounttoget,
+    post = {'name': name, 'description': description, 'amounttoget': amounttoget,'org' : org,
             'wegot': 0, 'iscomplete': False}
     from pymongo import MongoClient
     client = MongoClient('localhost', 27017)
@@ -111,33 +111,33 @@ def addCrowd():
     name = request.args.get('name')
     description = request.args.get('description')
     amounttoget = request.args.get('amounttoget')
-    addcrowdposttodb(name, description, int(amounttoget))
+    org = request.args.get('obj')
+    addcrowdposttodb(name, description,org, int(amounttoget))
     return json({"Result": True, "What": None})
 
 
-@app.route('/api/crowd/set/<field>')
-def modCrowd(field):
-    # /api/crowd/set/name?old=Test&new=Test1
+@app.route('/api/crowd/set/<object_id>')
+def modCrowd(object_id):
+    # /api/crowd/set/name?field=name&new=Example
     from pymongo import MongoClient
+    from bson.objectid import ObjectId
     client = MongoClient('localhost', 27017)
     db = client.posts
     collection = db.tasks
-    find = {field: request.args.get('old')}
-    newvalue = {"$set": {field: request.args.get('new')}}
-    collection.update_one(find, newvalue)
-    return json({"Result": True, "What": None})
+    field = request.args.get('field')
+    new = request.args.get('new')
+    collection.find_one_and_update({'_id' : ObjectId(object_id)}, {'$set': {field:new}})
 
 
-@app.route('/api/crowd/get/<field>')
-def getCrowd(field):
+@app.route('/api/crowd/get/<object_id>')
+def getCrowd(object_id):
     #/api/crowd/get/name?value=Test
     from pymongo import MongoClient
+    from bson.objectid import ObjectId
     client = MongoClient('localhost', 27017)
     db = client.posts
-    collection = db.tasks
-    post = {field: request.args.get('value')}
-    collection.find_one()
-    return str(collection.find_one(post))
+    collection = db.tasks   
+    return json(collection.find_one({'_id' : ObjectId(object_id)}))
 
 
 @app.route('/api/crowd/getall')
@@ -149,9 +149,9 @@ def getall():
     result = []
     for i in collection.find({}):
         post = {'name': i['name'], 'description': i['description'],
-                'amounttoget': i['amounttoget'], 'wegot': i['wegot']}
+                'amounttoget': i['amounttoget'], 'wegot': i['wegot'], '_id':i['_id'], 'org' : i['org']}
         result.append(post)
-    return 
+    return render_template('getall.html', posts = result, title = "Список всех краудов")
 def getTop3Crowd():
     from pymongo import MongoClient
     client = MongoClient('localhost', 27017)
