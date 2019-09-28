@@ -31,7 +31,7 @@ def addcrowdposttodb(name: str, description: str, org: str, amounttoget: float):
     '''
     Добавляет краудфанд в базу с нулевым балансом
     '''
-    post = {'name': name, 'description': description, 'amounttoget': amounttoget,'org' : org,
+    post = {'name': name, 'description': description, 'amounttoget': amounttoget, 'org': org,
             'wegot': 0, 'iscomplete': False}
     from pymongo import MongoClient
     client = MongoClient('localhost', 27017)
