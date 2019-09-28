@@ -205,7 +205,23 @@ def home():
         posts=getTop3Crowd()
     )
 
-
+@app.route('/search', methods=['GET', 'POST'])
+def search():
+    if request.method == 'POST':
+        from bson.objectid import ObjectId
+        from pymongo import MongoClient
+        client = MongoClient('localhost', 27017)
+        db = client.posts
+        collection = db.tasks
+        name = request.form['search']
+        result = []
+        for item in collection.find({}):
+            post = {'name': item['name'], 'description': item['description'], 'str_id': str(
+                item['_id'])}
+            if name in post['name']:
+                result.append(post)
+        return render_template('search.html', posts = result)
+    return render_template('search.html')
 @app.route('/contact')
 def contact():
     """Renders the contact page."""
@@ -247,7 +263,7 @@ def showCrowd(id_str):
     collection = db.tasks
     crowd_id = ObjectId(id_str)
     finded = collection.find_one({"_id": crowd_id})
-    return render_template('crowd.html', year=datetime.now().year, comments=showComments(crowd_id), title=finded['name'], name=finded['name'], description=finded['description'], need=finded['amounttoget'], wegot=finded['wegot'], persent=int(finded['wegot']/finded['amounttoget'] * 100))
+    return render_template('crowd.html',donate = finded['donate'], year=datetime.now().year, comments=showComments(crowd_id), title=finded['name'], name=finded['name'], description=finded['description'], need=finded['amounttoget'], wegot=finded['wegot'], persent=int(finded['wegot']/finded['amounttoget'] * 100))
 
 
 app.run(debug=True, host="0.0.0.0")

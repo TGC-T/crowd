@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+
+  <form action="" method="post">
+    <input type="text" placeholder="" name="search" value="{{
+      request.form.search }}">
+    <input class="btn btn-default" type="submit" value="Поиск">
+  </form>
+
+{% for i in posts %}
+<p><a href="/crowd/{{i.str_id}}">{{i.name}}</a></p>
+{% endfor %}
+{%endblock%}
