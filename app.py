@@ -47,7 +47,7 @@ def login():
         from pymongo import MongoClient
         client = MongoClient('localhost', 27017)
         db = client.webusers
-        post = {'email' : request.form['username']}
+        post = {'username' : request.form['username']}
         collection = db.users
         finded = collection.find_one(post)
         resp = make_response(redirect(url_for('personal')))
