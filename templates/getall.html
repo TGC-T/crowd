@@ -2,22 +2,21 @@
 
 {% block content %}
 
-
+<style>
+        #line_block{
+            width: 220px;
+            height: 270px;
+            float: left;
+            margin: 0 15px 15px 0;
+        }</style>
 
 <div class="row">
     <div class="col-md-2">&nbsp;</div>
     <div class="col-md-8">
         <div class="row space-16">&nbsp;</div>
         <div class="row">
-            <div class="col-sm-4">
-                <style>
-                    #line_block{
-                        width: 220px;
-                        height: 270px;
-                        float: left;
-                        margin: 0 15px 15px 0;
-                    }</style>
                 {% for post in posts %}
+            <div class="col-sm-4">
                     <div class="thumbnail">
                         <div class="caption text-center"
                             onclick="location.href=''" id="line_block">
@@ -35,8 +34,8 @@
                                     <p><a class="btn btn-default" href="/crowd/{{ post._id }}">Узнать больше &raquo;</a></p>
                             </ul>
                         </div>
-                {% endfor %}
                 </div>
+                {% endfor %}
             </div>
         </div>
         <div class="col-md-2">&nbsp;</div>
