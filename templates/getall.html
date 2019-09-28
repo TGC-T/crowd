@@ -6,14 +6,16 @@
     {% for post in posts %}
     <li>
         <div class="thumbnail" style="width: 60%" style="height: 250px" onclick="location.href=''" style="margin: 0 15px 15px 0">
-            <img src="" style="width: 80px;height: 80px">
+            <img src="" style="width: 80px;height: 80px" float:left>
             <div class="progress">
-                <div class="progress-bar" role="progressbar" style="width: 60%" aria-valuenow={{post.wegot}}% aria-valuemin="0" aria-valuemax="100">               
+                <div class="progress-bar" role="progressbar" style="width: 60%" aria-valuenow={{post.wegot}}% aria-valuemin="0" aria-valuemax="100" float:left>               
                 </div>
-                <h4 id="thumbnail-label"><a
-                    href="/crowd/{{ post._id }}"
-                        target="_blank">{{post.name}}</a></h4>
             </div>
+            <h4 id="thumbnail-label"><a
+                href="/crowd/{{ post._id }}"
+                    target="_blank">{{post.name}}</a></h4>
+                    <div class="thumbnail-description smaller">{{ post.description}}</div>
+                    <p><a class="btn btn-default" href="/crowd/{{ post._id }}">Узнать больше &raquo;</a></p>
         </div>
     </li>
     {% endfor %}
