@@ -105,7 +105,7 @@ def login():
             error = 'Неверные авторизация.'
         else:
             return redirect(url_for('home'))
-    return render_template('login.html', error=error, year=datetime.now().year)
+    return render_template('login.html',title = 'Вход', error=error, year=datetime.now().year)
 
 def addCrowd(name,description,amounttoget,org):
     addcrowdposttodb(name, description, org, int(amounttoget))
@@ -175,7 +175,7 @@ def getall():
         post = {'name': i['name'], 'description': i['description'],
                 'amounttoget': i['amounttoget'], 'wegot': i['wegot'], '_id': i['_id'], 'org': i['org'], 'persent':int(i['wegot']/i['amounttoget'] * 100)}
         result.append(post)
-    return render_template('getall.html', posts=result, title="Список всех краудов")
+    return render_template('getall.html', year=datetime.now().year, posts=result, title="Список всех краудов")
 
 
 def getTop3Crowd():
@@ -219,8 +219,9 @@ def search():
                 'amounttoget': i['amounttoget'], 'wegot': i['wegot'], '_id': i['_id'], 'org': i['org'], 'persent':int(i['wegot']/i['amounttoget'] * 100)}
             if name in post['name']:
                 result.append(post)
-        return render_template('search.html', posts = result)
-    return render_template('search.html')
+        return render_template('search.html', posts = result,
+                               title='Поиск', year=datetime.now().year)
+    return render_template('search.html', title='Поиск', year=datetime.now().year)
 @app.route('/contact')
 def contact():
     """Renders the contact page."""
