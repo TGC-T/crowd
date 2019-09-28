@@ -19,23 +19,21 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a href="/" class="navbar-brand">Вдох</a>
+                <a  href="/"><img class="navbar-brand" height="75px" src="/static/content/nameOnly.png"></a>
             </div>
-            <div class="navbar-collapse collapse">
+            <div class="navbar-collapse collapse" style="padding-top: 11px">
                 <ul class="nav navbar-nav">
-                    <li><a href="{{ url_for('home') }}">Домашняя страница</a></li>
+                    <!-- <li><a href="{{ url_for('home') }}">Домашняя страница</a></li> -->
                     <li><a href="{{ url_for('about') }}">О нас</a></li>
                     <li><a href="{{ url_for('contact') }}">Контакты</a></li>
                     <li><a href="{{ url_for('getall') }}">Список</a></li>
                     <li><a href="{{ url_for('search') }}">Поиск</a></li>
                 </ul>
                     <ul class="nav navbar-nav navbar-right">
-                        <li><a href="#"><span class="glyphicon glyphicon-user"></span> Регистрация</a></li>
-                        <li><a href="{{ url_for('login') }}"><span class="glyphicon glyphicon-log-in"></span> Вход</a></li>
+                        <li><a href="{{ url_for('login') }}"><span class="glyphicon glyphicon-user"></span> Регистрация</a></li>
+                        <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Вход</a></li>
                         </div>
-            
         </div>
-        
     </div>
 
 
