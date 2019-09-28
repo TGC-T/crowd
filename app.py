@@ -50,6 +50,8 @@ def login():
         post = {'username' : request.form['username']}
         collection = db.users
         finded = collection.find_one(post)
+        if finded is None:
+            return render_template('login.html',title = 'Вход', error="Ой!", year=datetime.now().year)
         resp = make_response(redirect(url_for('personal')))
         resp.set_cookie('str_id', str(finded['_id']), max_age=60)
         return resp
