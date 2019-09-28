@@ -2,13 +2,22 @@
 
 {% block content %}
 
-<style>
-        #line_block{
-            width: 220px;
-            height: 270px;
-            float: left;
-            margin: 0 15px 15px 0;
-        }</style>
+<ul class="list-unstyled">
+    {% for post in posts %}
+    <li>
+        <div class="thumbnail" style="width: 60%" style="height: 250px" onclick="location.href=''" style="margin: 0 15px 15px 0">
+            <img src="" style="width: 80px;height: 80px">
+            <div class="progress">
+                <div class="progress-bar" role="progressbar" style="width: 60%" aria-valuenow={{post.wegot}}% aria-valuemin="0" aria-valuemax="100">               
+                </div>
+                <h4 id="thumbnail-label"><a
+                    href="/crowd/{{ post._id }}"
+                        target="_blank">{{post.name}}</a></h4>
+            </div>
+        </div>
+    </li>
+    {% endfor %}
+</ul>
 
 <div class="row">
     <div class="col-md-2">&nbsp;</div>
@@ -19,7 +28,7 @@
             <div class="col-sm-4">
                     <div class="thumbnail">
                         <div class="caption text-center"
-                            onclick="location.href=''" id="line_block">
+                            onclick="location.href=''">
                             <div class="position-relative">
                                 <img src="" style="width:72px;height:72px;" />
                             </div>
