@@ -134,6 +134,23 @@ def modCrowd(object_id):
     collection.find_one_and_update(
         {'_id': ObjectId(object_id)}, {'$set': {field: new}})
 
+@app.route('/api/crowd/inc/<object_id>')
+def incMoney(object_id):
+    from pymongo import MongoClient
+    from bson.objectid import ObjectId
+    # /api/crowd/set/object_id?more=Example
+    client = MongoClient('localhost', 27017)
+    db = client.posts
+    collection = db.tasks
+    more = request.args.get('more')
+    collection.find_one_and_update({'_id': ObjectId(object_id)}, {'$inc': {'wegot': more}})
+    finded = collection.find_one({'_id': ObjectId(object_id)})
+    if finded['wegot'] >= finded['amounttoget']:
+        collection.update_one({'_id': ObjectId(object_id)}, {'$set': {'iscomplete': True}})
+    
+    
+
+
 
 @app.route('/api/crowd/get/<object_id>')
 def getCrowd(object_id):
