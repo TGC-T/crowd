@@ -2,11 +2,18 @@
 
 {% block content %}
 
+<style>
+    .leftpic{
+        float:left;
+        margin: 5px 5px 0 0;
+    }
+</style>
+
 <ul class="list-unstyled">
     {% for post in posts %}
     <li>
         <div class="thumbnail" style="width: 1140px" style="height: 250px" onclick="location.href=''" style="margin: 15px" float: left>
-            <img src="" style="width: 750px;height: 420px" float:left">
+            <img src="" style="width: 750px;height: 420px" class="leftpic">
             <h4 id="thumbnail-label"><a style="margin: 15px"
                 href="/crowd/{{ post._id }}"
                     target="_blank">{{post.name}}</a></h4>
