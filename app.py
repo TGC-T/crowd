@@ -108,7 +108,6 @@ def login():
     return render_template('login.html', error=error, year=datetime.now().year)
 
 def addCrowd(name,description,amounttoget,org):
-    #post = {'name':name, 'description': description, 'amounttoget': amounttoget, 'wegot':0, 'iscomplete':False, my_id: 4}
     addcrowdposttodb(name, description, org, int(amounttoget))
     
 
@@ -215,9 +214,9 @@ def search():
         collection = db.tasks
         name = request.form['search']
         result = []
-        for item in collection.find({}):
-            post = {'name': item['name'], 'description': item['description'], 'str_id': str(
-                item['_id'])}
+        for i in collection.find({}):
+            post = {'name': i['name'], 'description': i['description'],
+                'amounttoget': i['amounttoget'], 'wegot': i['wegot'], '_id': i['_id'], 'org': i['org'], 'persent':int(i['wegot']/i['amounttoget'] * 100)}
             if name in post['name']:
                 result.append(post)
         return render_template('search.html', posts = result)
@@ -263,7 +262,7 @@ def showCrowd(id_str):
     collection = db.tasks
     crowd_id = ObjectId(id_str)
     finded = collection.find_one({"_id": crowd_id})
-    return render_template('crowd.html',donate = finded['donate'], year=datetime.now().year, comments=showComments(crowd_id), title=finded['name'], name=finded['name'], description=finded['description'], need=finded['amounttoget'], wegot=finded['wegot'], persent=int(finded['wegot']/finded['amounttoget'] * 100))
+    return render_template('crowd.html', importance=finded['importance'], donate=finded['donate'], year=datetime.now().year, comments=showComments(crowd_id), title=finded['name'], name=finded['name'], description=finded['description'], need=finded['amounttoget'], wegot=finded['wegot'], persent=int(finded['wegot']/finded['amounttoget'] * 100))
 
 
 app.run(debug=True, host="0.0.0.0")
