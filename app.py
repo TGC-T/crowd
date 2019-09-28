@@ -1,5 +1,7 @@
 from flask import Flask
 from flask import render_template
+from flask import redirect
+from flask import url_for
 from flask import request
 from json import dumps as json
 from datetime import datetime
@@ -62,12 +64,11 @@ def checkUser(email: str, password: str):
     db = client.webusers
     collection = db.users
     finded = collection.find_one(post)
-    if finded is None:
+    if finded == None:
         return False
-    else:
-        if finded['password'] != password:
-            return False
-        return True
+    if finded['password'] != password:
+        return False
+    return True
 
 def findUser(email):
     from pymongo import MongoClient
@@ -95,14 +96,15 @@ def userRegister():
     return json({'Result': True, 'What': None})
 
 
-@app.route('/api/user/login')
-def userLogin():
-    # url /user/login?email=example@example.com&password=AAAAAAAAAA
-    email = request.args.get('email')
-    password = request.args.get('password')
-    if checkUser(email, password):
-        return json({'Result': True, 'What': None})
-    return json({'Result': False, 'What': 'Неверный пароль'})
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    error = None
+    if request.method == 'POST':
+        if checkUser(request.form['username'],request.form['password']) != True :
+            error = 'Неверные авторизация.'
+        else:
+            return redirect(url_for('home'))
+    return render_template('login.html', error=error)
 
 
 @app.route('/api/crowd/add')
@@ -185,13 +187,7 @@ def contact():
         year=datetime.now().year,
         message='Your contact page.'
     )
-@app.route('/login', methods = ['POST', 'GET'])
-def login():
-    if request.method == 'POST':
-        user = request.form['login']
-        password = request.form['password']
 
-    return render_template('login.html')
 @app.route('/about')
 def about():
     """Renders the about page."""
