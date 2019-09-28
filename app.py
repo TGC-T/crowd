@@ -196,6 +196,14 @@ def about():
         year=datetime.now().year,
         message='Описание страницы'
     )
+def showComments(crowdObject_id):
+    from pymongo import MongoClient
+    client = MongoClient('localhost', 27017)
+    collection = client.comments.forum
+    comments = []
+    for i in collection.find({'crowdid':crowdObject_id}):
+        comments.append(i)
+    return comments
 
 @app.route('/crowd/<id_str>')
 def showCrowd(id_str):
@@ -204,36 +212,10 @@ def showCrowd(id_str):
     client = MongoClient('localhost', 27017)
     db = client.posts
     collection = db.tasks
-    finded = collection.find_one({"_id": ObjectId(id_str)})
-    return render_template('crowd.html',title = finded['name'], name=finded['name'], description=finded['description'], need=finded['amounttoget'], wegot=finded['wegot'], persent = int(finded['wegot']/finded['amounttoget'] * 100))
+    crowd_id = ObjectId(id_str)
+    finded = collection.find_one({"_id": crowd_id})
+    return render_template('crowd.html',comments = showComments(crowd_id),title = finded['name'], name=finded['name'], description=finded['description'], need=finded['amounttoget'], wegot=finded['wegot'], persent = int(finded['wegot']/finded['amounttoget'] * 100))
 
-@app.route('/api/comments/add/comment')
-def addComments():
-    from bson.objectid import ObjectId
-    #/api/comments/add/comment?author=Test&comment=TestComment&crowobjectid=sfsadkfdspogk
-    name = request.args.get('author')
-    commentstr = request.args.get('comment')
-    crowd = request.args.get('crowobjectid')
-    comment = {'author':name, 'comment':commentstr, 'crowdid':ObjectId(crowd)}
-    from pymongo import MongoClient
-    client = MongoClient('localhost', 27017)
-    db = client.comments
-    collection = db.forum
-    post_id = collection.insert_one(comment)
-    return json({'Result':True})
-
-@app.route('/api/comments/showcoments')
-def showComments():
-    from bson.objectid import ObjectId
-    #/api/comments/add/comment?crowobjectid=alsfdjoahd
-    crowd = request.args.get('crowobjectid')
-    from pymongo import MongoClient
-    client = MongoClient('localhost', 27017)
-    collection = client.comments.forum
-    comments = []
-    for i in collection.find({'crowdid':ObjectId(crowd)}):
-        comments.append(i)
-    return render_template('forum.html', comments = comments)
     
 
 
