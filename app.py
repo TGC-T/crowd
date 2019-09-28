@@ -104,7 +104,7 @@ def login():
             error = 'Неверные авторизация.'
         else:
             return redirect(url_for('home'))
-    return render_template('login.html', error=error)
+    return render_template('login.html', error=error,year=datetime.now().year)
 
 
 @app.route('/api/crowd/add')
@@ -217,7 +217,7 @@ def showCrowd(id_str):
     collection = db.tasks
     crowd_id = ObjectId(id_str)
     finded = collection.find_one({"_id": crowd_id})
-    return render_template('crowd.html',comments = showComments(crowd_id),title = finded['name'], name=finded['name'], description=finded['description'], need=finded['amounttoget'], wegot=finded['wegot'], persent = int(finded['wegot']/finded['amounttoget'] * 100))
+    return render_template('crowd.html',year=datetime.now().year,comments = showComments(crowd_id),title = finded['name'], name=finded['name'], description=finded['description'], need=finded['amounttoget'], wegot=finded['wegot'], persent = int(finded['wegot']/finded['amounttoget'] * 100))
 
 
 app.run(debug=True, host="0.0.0.0")
