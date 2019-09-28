@@ -10,8 +10,15 @@
         <div class="row space-16">&nbsp;</div>
         <div class="row">
             <div class="col-sm-4">
+                <style>
+                    #line_block{
+                        width: 220px;
+                        height: 270px;
+                        float: left;
+                        margin: 0 15px 15px 0;
+                    }</style>
                 {% for post in posts %}
-                    <div class="thumbnail" style="width: 220px">
+                    <div class="thumbnail" id="line_block">
                         <div class="caption text-center"
                             onclick="location.href=''">
                             <div class="position-relative">
