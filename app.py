@@ -232,7 +232,7 @@ def showCrowd(id_str):
 
 @app.route('/api/payments/')
 def setPayments():
-    #/app/payments/<id_str>?crowd_id=example_id
+    #/app/payments/?crowd_id=example_id&user_id=example_id&payment=300
     from bson.objectid import ObjectId
     from pymongo import MongoClient
     client = MongoClient('localhost', 27017)
@@ -242,7 +242,8 @@ def setPayments():
     user_id = request.args.get('user_id')
     amount = float(request.args.get('payment'))
     post = {'crowd_id':crowd_id, 'user_id':user_id, 'payment':amount}
-    return str(collection.insert_one(post).inserted_id)
+    collection.insert_one(post)
+
 
 @app.route('/api/crowd/<crowd_id_str>')
 def getPayments(crowd_id_str):
@@ -251,10 +252,11 @@ def getPayments(crowd_id_str):
     client = MongoClient('localhost', 27017)
     db = client.posts
     collection = db.payments
+    user_collection = client.webusers.users
     link = []
     for i in collection.find({'crowd_id':crowd_id_str}):
-        link.append(i)
-    return render_template('payments.html', )
+       link.append(user_collection.find_one({'_id': ObjectId(i['user_id'])}))
+    return 
     
 @app.route('/api/account/<id_str>')
 def getAccount(id_str):
