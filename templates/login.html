@@ -6,12 +6,13 @@
 <h1>Login</h1>
 <br>
 <form action="" method="post">
-  <input type="text" placeholder="Username" name="username" value="{{
+  <input type="text" placeholder="Username" style="border: 1px solid #adadad; border-radius: 4px; padding: 5px;" name="username" value="{{
       request.form.username }}"><br><br>
-  <input type="password" placeholder="Password" name="password" value="{{
+  <input type="password" placeholder="Password" style="border: 1px solid #adadad; border-radius: 4px; padding: 5px;" name="password" value="{{
       request.form.password }}"><br><br>
   <input class="btn btn-default" type="submit" value="Login">
 </form>
+<br>
 {% if error %}
 <p class="error"><strong>Error:</strong> {{ error }}
   {% endif %}
