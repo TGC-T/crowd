@@ -215,9 +215,9 @@ def search():
         collection = db.tasks
         name = request.form['search']
         result = []
-        for item in collection.find({}):
-            post = {'name': item['name'], 'description': item['description'], 'str_id': str(
-                item['_id'])}
+        for i in collection.find({}):
+            post = {'name': i['name'], 'description': i['description'],
+                'amounttoget': i['amounttoget'], 'wegot': i['wegot'], '_id': i['_id'], 'org': i['org'], 'persent':int(i['wegot']/i['amounttoget'] * 100)}
             if name in post['name']:
                 result.append(post)
         return render_template('search.html', posts = result)

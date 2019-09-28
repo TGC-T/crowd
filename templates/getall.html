@@ -7,7 +7,7 @@
     {% for post in posts %}
     <li>
         <div class="thumbnail" style="width: 1140px" style="height: 450px" onclick="location.href=''" style="margin: 15px" float: left>
-            <img src="" style="width: 500px;height: 280px;" float:left>
+            <!-- <img src="" style="width: 500px;height: 280px;" float:left> -->
             <h4 id="thumbnail-label"><a style="margin: 15px"
                 href="/crowd/{{ post._id }}"
                     target="_blank">{{post.name}}</a></h4>
@@ -22,37 +22,5 @@
     {% endfor %}
 </ul>
 
-<div class="row">
-    <div class="col-md-2">&nbsp;</div>
-    <div class="col-md-8">
-        <div class="row space-16">&nbsp;</div>
-        <div class="row">
-                {% for post in posts %}
-            <div class="col-sm-4">
-                    <div class="thumbnail">
-                        <div class="caption text-center"
-                            onclick="location.href=''">
-                            <div class="position-relative">
-                                <img src="" style="width:72px;height:72px;" />
-                            </div>
-                            <h4 id="thumbnail-label"><a
-                                href="/crowd/{{ post._id }}"
-                                    target="_blank">{{post.name}}</a></h4>
-                            <p><i class="glyphicon glyphicon-user light-red lighter bigger-120"></i>{{post.org}}&nbsp;</p>
-                            <div class="thumbnail-description smaller">{{ post.description}}</div>
-                        </div>
-                        <div class="caption card-footer text-center">
-                            <ul class="list-inline">
-                                    <p><a class="btn btn-default" href="/crowd/{{ post._id }}">Узнать больше &raquo;</a></p>
-                            </ul>
-                        </div>
-                </div>
-                {% endfor %}
-            </div>
-        </div>
-        <div class="col-md-2">&nbsp;</div>
-    </div>
-</div>
-<p>Use this area to provide additional information.</p>
 
 {% endblock %}
