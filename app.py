@@ -30,7 +30,7 @@ def userRegister():
         username = request.form['username']
         password = request.form['password']
         fio = request.form['fio']
-        post = {'usermail': username, 'fio': fio, 'password': password, 'isadmin':False}
+        post = {'username': username, 'fio': fio, 'password': password, 'isadmin':False}
         from pymongo import MongoClient
         client = MongoClient('localhost', 27017)
         db = client.webusers
