@@ -70,14 +70,15 @@ def checkUser(email: str, password: str):
         return False
     return True
 
+
 def findUser(email):
     from pymongo import MongoClient
     client = MongoClient('localhost', 27017)
     db = client.webusers
     collection = db.users
-    name = {'email' : email}
+    name = {'email': email}
     return collection.find_one(name) is not None
-        
+
 
 @app.route('/api/user/register')
 def userRegister():
@@ -85,10 +86,10 @@ def userRegister():
     email = request.args.get('email')
     password = request.args.get('password')
     fio = request.args.get('fio')
-    if checkInput(fio.split()[0],fio.split()[1], email) != True:
-        return json({'Result': False, 'What':'Пользователь уже существуеют'})
+    if checkInput(fio.split()[0], fio.split()[1], email) != True:
+        return json({'Result': False, 'What': 'Пользователь уже существуеют'})
     if findUser(email):
-        return json({'Result': False, 'What':'Пользователь уже существуеют'})
+        return json({'Result': False, 'What': 'Пользователь уже существуеют'})
     try:
         registerUser(email, password, fio)
     except Exception:
@@ -100,11 +101,11 @@ def userRegister():
 def login():
     error = None
     if request.method == 'POST':
-        if checkUser(request.form['username'],request.form['password']) != True :
+        if checkUser(request.form['username'], request.form['password']) != True:
             error = 'Неверные авторизация.'
         else:
             return redirect(url_for('home'))
-    return render_template('login.html', error=error,year=datetime.now().year)
+    return render_template('login.html', error=error, year=datetime.now().year)
 
 
 @app.route('/api/crowd/add')
@@ -114,7 +115,7 @@ def addCrowd():
     description = request.args.get('description')
     amounttoget = request.args.get('amounttoget')
     org = request.args.get('obj')
-    addcrowdposttodb(name, description,org, int(amounttoget))
+    addcrowdposttodb(name, description, org, int(amounttoget))
     return json({"Result": True, "What": None})
 
 
@@ -128,7 +129,8 @@ def modCrowd(object_id):
     collection = db.tasks
     field = request.args.get('field')
     new = request.args.get('new')
-    collection.find_one_and_update({'_id' : ObjectId(object_id)}, {'$set': {field:new}})
+    collection.find_one_and_update(
+        {'_id': ObjectId(object_id)}, {'$set': {field: new}})
 
 
 @app.route('/api/crowd/get/<object_id>')
@@ -139,8 +141,8 @@ def getCrowd(object_id):
     client = MongoClient('localhost', 27017)
     db = client.posts
     collection = db.tasks
-    finded =  collection.find_one({'_id' : ObjectId(object_id)})
-    finded['_id'] = str(finded['_id'])   
+    finded = collection.find_one({'_id': ObjectId(object_id)})
+    finded['_id'] = str(finded['_id'])
     return json(finded)
 
 
@@ -153,9 +155,11 @@ def getall():
     result = []
     for i in collection.find({}):
         post = {'name': i['name'], 'description': i['description'],
-                'amounttoget': i['amounttoget'], 'wegot': i['wegot'], '_id':i['_id'], 'org' : i['org']}
+                'amounttoget': i['amounttoget'], 'wegot': i['wegot'], '_id': i['_id'], 'org': i['org']}
         result.append(post)
-    return render_template('getall.html', posts = result, title = "Список всех краудов")
+    return render_template('getall.html', posts=result, title="Список всех краудов")
+
+
 def getTop3Crowd():
     from pymongo import MongoClient
     client = MongoClient('localhost', 27017)
@@ -164,7 +168,8 @@ def getTop3Crowd():
     posts = []
     count = 2
     for i in collection.find({}):
-        posts.append({'name': i['name'], 'description': i['description'], '_id': i['_id']})
+        posts.append(
+            {'name': i['name'], 'description': i['description'], '_id': i['_id']})
         if count == 0:
             break
         count -= 1
@@ -178,8 +183,10 @@ def home():
         'index.html',
         title='Домашняя страница',
         year=datetime.now().year,
-        posts = getTop3Crowd()
+        posts=getTop3Crowd()
     )
+
+
 @app.route('/contact')
 def contact():
     """Renders the contact page."""
@@ -190,6 +197,7 @@ def contact():
         message='Your contact page.'
     )
 
+
 @app.route('/about')
 def about():
     """Renders the about page."""
@@ -199,14 +207,17 @@ def about():
         year=datetime.now().year,
         message='Описание страницы'
     )
+
+
 def showComments(crowdObject_id):
     from pymongo import MongoClient
     client = MongoClient('localhost', 27017)
     collection = client.comments.forum
     comments = []
-    for i in collection.find({'crowdid':crowdObject_id}):
+    for i in collection.find({'crowdid': crowdObject_id}):
         comments.append(i)
     return comments
+
 
 @app.route('/crowd/<id_str>')
 def showCrowd(id_str):
@@ -217,7 +228,7 @@ def showCrowd(id_str):
     collection = db.tasks
     crowd_id = ObjectId(id_str)
     finded = collection.find_one({"_id": crowd_id})
-    return render_template('crowd.html',year=datetime.now().year,comments = showComments(crowd_id),title = finded['name'], name=finded['name'], description=finded['description'], need=finded['amounttoget'], wegot=finded['wegot'], persent = int(finded['wegot']/finded['amounttoget'] * 100))
+    return render_template('crowd.html', year=datetime.now().year, comments=showComments(crowd_id), title=finded['name'], name=finded['name'], description=finded['description'], need=finded['amounttoget'], wegot=finded['wegot'], persent=int(finded['wegot']/finded['amounttoget'] * 100))
 
 
 app.run(debug=True, host="0.0.0.0")
