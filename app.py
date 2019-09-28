@@ -185,8 +185,12 @@ def contact():
         year=datetime.now().year,
         message='Your contact page.'
     )
-@app.route('/login')
+@app.route('/login', methods = ['POST', 'GET'])
 def login():
+    if request.method = 'POST':
+        user = request.form['login']
+        password = request.form['password']
+        
     return render_template('login.html')
 @app.route('/about')
 def about():
