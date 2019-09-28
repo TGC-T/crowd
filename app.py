@@ -27,11 +27,11 @@ def checkInput(FirstName, LastName, Email):
     return IncorrectInput
 
 
-def addcrowdposttodb(name: str, description: str, org: str, amounttoget: float):
+def addcrowdposttodb(name: str, description: str, org: str, amounttoget: float, donate:str):
     '''
     Добавляет краудфанд в базу с нулевым балансом
     '''
-    post = {'name': name, 'description': description, 'amounttoget': amounttoget, 'org': org,
+    post = {'name': name, 'description': description, 'donate':donate , 'amounttoget': amounttoget, 'org': org,
             'wegot': 0, 'iscomplete': False}
     from pymongo import MongoClient
     client = MongoClient('localhost', 27017)
@@ -45,6 +45,8 @@ def registerUser(email: str, password: str, fio: str):
     '''
     регистрация пользователя
     '''
+    if checkUser(email, password) != True:
+        return False
     post = {'email': email, 'password': password, 'fio': fio}
     from pymongo import MongoClient
     client = MongoClient('localhost', 27017)
@@ -71,30 +73,16 @@ def checkUser(email: str, password: str):
     return True
 
 
-def findUser(email):
-    from pymongo import MongoClient
-    client = MongoClient('localhost', 27017)
-    db = client.webusers
-    collection = db.users
-    name = {'email': email}
-    return collection.find_one(name) is not None
-
-
-@app.route('/api/user/register')
+@app.route('/api/user/register',methods=['GET', 'POST'])
 def userRegister():
-    # url /user/register?email=example@example.com&password=AAAAAAAAAA&fio=ArthurKhakimovMarathovich
-    email = request.args.get('email')
-    password = request.args.get('password')
-    fio = request.args.get('fio')
-    if checkInput(fio.split()[0], fio.split()[1], email) != True:
-        return json({'Result': False, 'What': 'Пользователь уже существуеют'})
-    if findUser(email):
-        return json({'Result': False, 'What': 'Пользователь уже существуеют'})
-    try:
-        registerUser(email, password, fio)
-    except Exception:
-        return json({'Result': False, 'What': 'Пользователь уже существуют'})
-    return json({'Result': True, 'What': None})
+    if request.method == 'POST':
+        email = request.form['email']
+        password = request.form['password']
+        fio = request.form['fio']
+        if registerUser(email, password, fio) != False:
+            return redirect(url_for('login'))
+        return render_template('register.html', error='Ошибка регистрации', title='Регистрация')
+    return render_template('register.html', title='Регистрация')
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -107,15 +95,16 @@ def login():
             return redirect(url_for('home'))
     return render_template('login.html',title = 'Вход', error=error, year=datetime.now().year)
 
-def addCrowd(name,description,amounttoget,org):
-    addcrowdposttodb(name, description, org, int(amounttoget))
+def addCrowd(name,description,amounttoget,org,donate):
+    addcrowdposttodb(name, description, org, int(amounttoget),donate)
     
 
 
 @app.route('/crowd/add', methods=['GET', 'POST'])
 def crowdForm():
     if request.method == 'POST':
-        addCrowd(request.form['name'],request.form['description'],request.form['amounttoget'],request.form['org'])
+        addCrowd(request.form['name'], request.form['description'],
+                 request.form['amounttoget'], request.form['org'], request.form['donate'])
         return redirect(url_for('home'))
     return render_template('crowdform.html', year=datetime.now().year)
 
@@ -147,8 +136,6 @@ def incMoney(object_id):
     if finded['wegot'] >= finded['amounttoget']:
         collection.update_one({'_id': ObjectId(object_id)}, {'$set': {'iscomplete': True}})
     
-    
-
 
 
 @app.route('/api/crowd/get/<object_id>')

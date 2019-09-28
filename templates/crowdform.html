@@ -1,19 +1,28 @@
 {% extends "layout.html" %}
 
 {% block content %}
-<br>
+<br><br>
 <div class="container">
     <form method="post">
-        <input type="text" placeholder="Название" name="name" value="{{
-        request.form.name }}">
-        <input type="text" placeholder="Описание" name="description" value="{{
-        request.form.description }}">
-        <input type="text" placeholder="Кол-во денег" name="amounttoget" value="{{
-            request.form.amounttoget }}">
-        <input type="text" placeholder="Организация" name="org" value="{{
-                request.form.org }}">
-            
-        <input class="btn btn-default" type="submit" value="Отправить">
+        <input type="text" placeholder="Название" name="name"
+            style="border: 1px solid #adadad; border-radius: 4px; padding: 5px;" value="{{
+        request.form.name }}"><br><br>
+        <input type="text" placeholder="Описание" name="description"
+            style="border: 1px solid #adadad; border-radius: 4px; padding: 5px;" value="{{
+        request.form.description }}"><br><br>
+        <input type="text" placeholder="Кол-во денег" name="amounttoget"
+            style="border: 1px solid #adadad; border-radius: 4px; padding: 5px;" value="{{
+            request.form.amounttoget }}"><br><br>
+        <input type="text" placeholder="Организация" name="org"
+            style="border: 1px solid #adadad; border-radius: 4px; padding: 5px;" value="{{
+                request.form.org }}"><br><br>
+        <input type="text" placeholder="Реквизиты" name="donate"
+            style="border: 1px solid #adadad; border-radius: 4px; padding: 5px;" value="{{
+                    request.form.donate }}"><br><br>
+
+
+        <input class="btn btn-default" type="submit"
+            style="border: 1px solid #adadad; border-radius: 4px; padding: 5px;" value="Отправить">
     </form>
 
     {% endblock %}
