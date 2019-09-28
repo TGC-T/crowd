@@ -19,32 +19,23 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a href="/" class="navbar-brand">Вдох</a>
+                <a  href="/"><img class="navbar-brand" height="75px" src="/static/content/nameOnly.png"></a>
             </div>
-            <div class="navbar-collapse collapse">
+            <div class="navbar-collapse collapse" style="padding-top: 11px">
                 <ul class="nav navbar-nav">
-                    <li><a href="{{ url_for('home') }}">Домашняя страница</a></li>
+                    <!-- <li><a href="{{ url_for('home') }}">Домашняя страница</a></li> -->
                     <li><a href="{{ url_for('about') }}">О нас</a></li>
-                    <li><a href="{{ url_for('contact') }}">Контакс</a></li>
+                    <li><a href="{{ url_for('contact') }}">Контакты</a></li>
                     <li><a href="{{ url_for('getall') }}">Список</a></li>
+                    <li><a href="{{ url_for('search') }}">Поиск</a></li>
                 </ul>
-
-                <div class="btn-group" float:right>
-                    <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown"
-                        aria-haspopup="true" aria-expanded="false" style="right: -1px">
-                        Логин
-                    </button>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item" href="{{ url_for('login') }}">Логин</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Регистрация</a>
-                    </div>
-                </div>
-
-
-            </div>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="{{ url_for('login') }}"><span class="glyphicon glyphicon-user"></span> Вход</a></li>
+                        <li><a href="{{ url_for('userRegister') }}"><span class="glyphicon glyphicon-log-in"></span> Регистация</a></li>
+                        </div>
         </div>
     </div>
+
 
     <div class="container body-content">
         {% block content %}{% endblock %}
@@ -58,7 +49,6 @@
     <script src="/static/scripts/bootstrap.js"></script>
     <script src="/static/scripts/respond.js"></script>
     {% block scripts %}{% endblock %}
-
 </body>
 
 </html>

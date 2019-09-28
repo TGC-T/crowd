@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<br>
+<h1>Регистрация</h1>
+<br>
+<form action="" method="post">
+    <input type="text" placeholder="Фамилия Имя Отчество"
+        style="border: 1px solid #adadad; border-radius: 4px; padding: 5px;" name="fio" value="{{
+      request.form.fio }}"><br><br>
+    <input type="text" placeholder="Почта" style="border: 1px solid #adadad; border-radius: 4px; padding: 5px;"
+        name="username" value="{{
+      request.form.username }}"><br><br>
+    <input type="password" placeholder="Пароль" style="border: 1px solid #adadad; border-radius: 4px; padding: 5px;"
+        name="password" value="{{
+        request.form.password }}"><br><br>
+    <input class="btn btn-default" type="submit" value="Register">
+</form>
+<br>
+{% if error %}
+<p class="error"><strong>Error:</strong> {{ error }}
+    {% endif %}
+    {%endblock%}

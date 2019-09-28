@@ -2,18 +2,20 @@
 
 {% block content %}
 
-
-<div class="container">
-  <h1>Please login</h1>
-  <br>
-  <form action="" method="post">
-    <input type="text" placeholder="Username" name="username" value="{{
-      request.form.username }}">
-     <input type="password" placeholder="Password" name="password" value="{{
-      request.form.password }}">
-    <input class="btn btn-default" type="submit" value="Login">
-  </form>
-  {% if error %}
-    <p class="error"><strong>Error:</strong> {{ error }}
+<br>
+<h1>Логин</h1>
+<br>
+<form action="" method="post">
+  <input type="text" placeholder="Почта" style="border: 1px solid #adadad; border-radius: 4px; padding: 5px;"
+    name="username" value="{{
+      request.form.username }}"><br><br>
+  <input type="password" placeholder="Пароль" style="border: 1px solid #adadad; border-radius: 4px; padding: 5px;"
+    name="password" value="{{
+      request.form.password }}"><br><br>
+  <input class="btn btn-default" type="submit" value="Login">
+</form>
+<br>
+{% if error %}
+<p class="error"><strong>Error:</strong> {{ error }}
   {% endif %}
-{%endblock%}
+  {%endblock%}

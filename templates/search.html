@@ -1,0 +1,50 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<br><br>
+  <form action="" method="post">
+    <input type="text" placeholder="" name="search" value="{{
+      request.form.search }}" style="width: 600px">
+    <input class="btn btn-default" type="submit" value="Поиск">
+  </form>
+  <li class="dropdown">
+    <a href="#" data-toggle="dropdown" class="dropdown-toggle">
+      Сортировать по...<b class="caret"></b>
+    </a>
+    <ul class="dropdown-menu">
+      <li><a href="#">По имени</a></li>
+      <li><a href="#">По необходимой сумме</a></li>
+      <li><a href="#">По собранной сумме</a></li>
+      <li><a href="#">По проценту</a></li>
+      <li><a href="#">По важности</a></li>
+    </ul>
+  </li>
+  <li class="dropdown">
+      <a href="#" data-toggle="dropdown" class="dropdown-toggle">
+        Порядок вывода<b class="caret"></b>
+      </a>
+      <ul class="dropdown-menu">
+        <li><a href="#">По возростанию</a></li>
+        <li><a href="#">По убыванию</a></li>
+
+      </ul>
+    </li>
+
+<ul class="list-unstyled">
+        {% for post in posts %}
+        <li>
+            <div class="thumbnail" style="width: 1140px" style="height: 450px" onclick="location.href=''" style="margin: 15px" float: left>
+                <h4 id="thumbnail-label"><a style="margin: 15px"
+                    href="/crowd/{{ post._id }}"
+                        target="_blank">{{post.name}}</a></h4>
+                        <div class="thumbnail-description smaller" style="margin: 15px">{{ post.description}}</div>
+                        <p><a class="btn btn-default" href="/crowd/{{ post._id }}" style="margin: 5px">Узнать больше &raquo;</a></p>
+                <div class="progress">
+                    <div class="progress-bar" role="progressbar" style="width:{{post.persent}}%" aria-valuenow={{post.persent}} aria-valuemin="0" aria-valuemax="100" style="margin: 15px" style="color: lawngreen">               
+                    </div>
+                </div>
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+{%endblock%}
