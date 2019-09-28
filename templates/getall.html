@@ -13,12 +13,13 @@
     {% for post in posts %}
     <li>
         <div class="thumbnail" style="width: 1140px" style="height: 250px" onclick="location.href=''" style="margin: 15px" float: left>
-            <img src="" style="width: 750px;height: 420px" class="leftpic">
+            <img src="" style="width: 500px;height: 280px" class="leftpic">
             <h4 id="thumbnail-label"><a style="margin: 15px"
                 href="/crowd/{{ post._id }}"
                     target="_blank">{{post.name}}</a></h4>
-                    <div class="thumbnail-description smaller">{{ post.description}}</div>
+                    <div class="thumbnail-description smaller" style="margin: 15px">{{ post.description}}</div>
                     <p><a class="btn btn-default" href="/crowd/{{ post._id }}" style="margin: 5px">Узнать больше &raquo;</a></p>
+                    <p></p>
             <div class="progress">
                 <div class="progress-bar" role="progressbar" style="width:{{post.persent}}%" aria-valuenow={{post.persent}} aria-valuemin="0" aria-valuemax="100" style="margin: 15px" style="color: lawngreen">               
                 </div>
