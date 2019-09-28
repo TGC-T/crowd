@@ -138,8 +138,10 @@ def getCrowd(object_id):
     from bson.objectid import ObjectId
     client = MongoClient('localhost', 27017)
     db = client.posts
-    collection = db.tasks   
-    return json(collection.find_one({'_id' : ObjectId(object_id)}))
+    collection = db.tasks
+    finded =  collection.find_one({'_id' : ObjectId(object_id)})
+    finded['_id'] = str(finded['_id'])   
+    return json(finded)
 
 
 @app.route('/api/crowd/getall')
