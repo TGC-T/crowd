@@ -3,28 +3,11 @@ from flask import render_template
 from flask import redirect
 from flask import url_for
 from flask import request
+from flask import make_response
 from json import dumps as json
 from datetime import datetime
 app = Flask(__name__)
 
-
-def checkInput(FirstName, LastName, Email):
-    IncorrectInput = []
-    if not FirstName.isalpha() or not 0 <= len(FirstName):
-        IncorrectInput.append('FirstName')
-
-    if 0 <= len(LastName):
-        for LastNames in LastName.split('-', 1):
-            if not LastNames.isalpha():
-                IncorrectInput.append('LastName')
-                break
-    else:
-        IncorrectInput.append('LastName')
-    if not '@' in Email:
-        IncorrectInput.append('Email')
-    if (len(IncorrectInput) == 0):
-        return True
-    return IncorrectInput
 
 
 def addcrowdposttodb(name: str, description: str, org: str, amounttoget: float, donate:str):
@@ -41,47 +24,19 @@ def addcrowdposttodb(name: str, description: str, org: str, amounttoget: float, 
     return post_id
 
 
-def registerUser(email: str, password: str, fio: str):
-    '''
-    регистрация пользователя
-    '''
-    if checkUser(email, password) != True:
-        return False
-    post = {'email': email, 'password': password, 'fio': fio}
-    from pymongo import MongoClient
-    client = MongoClient('localhost', 27017)
-    db = client.webusers
-    collection = db.users
-    post_id = collection.insert_one(post)
-    return post_id
-
-
-def checkUser(email: str, password: str):
-    '''
-    проверка сущ пользьзователя
-    '''
-    post = {'email': email, 'password': password}
-    from pymongo import MongoClient
-    client = MongoClient('localhost', 27017)
-    db = client.webusers
-    collection = db.users
-    finded = collection.find_one(post)
-    if finded == None:
-        return False
-    if finded['password'] != password:
-        return False
-    return True
-
-
-@app.route('/api/user/register',methods=['GET', 'POST'])
+@app.route('/register',methods=['GET', 'POST'])
 def userRegister():
     if request.method == 'POST':
-        email = request.form['email']
+        username = request.form['username']
         password = request.form['password']
         fio = request.form['fio']
-        if registerUser(email, password, fio) != False:
-            return redirect(url_for('login'))
-        return render_template('register.html', error='Ошибка регистрации', title='Регистрация')
+        post = {'usermail': username, 'fio': fio, 'password': password, 'isadmin':False}
+        from pymongo import MongoClient
+        client = MongoClient('localhost', 27017)
+        db = client.webusers
+        collection = db.users
+        collection.insert_one(post)
+        return redirect('/login')
     return render_template('register.html', title='Регистрация')
 
 
@@ -89,11 +44,28 @@ def userRegister():
 def login():
     error = None
     if request.method == 'POST':
-        if checkUser(request.form['username'], request.form['password']) != True:
-            error = 'Неверные авторизация.'
-        else:
-            return redirect(url_for('home'))
+        from pymongo import MongoClient
+        client = MongoClient('localhost', 27017)
+        db = client.webusers
+        post = {'email' : request.form['username']}
+        collection = db.users
+        finded = collection.find_one(post)
+        resp = make_response(redirect(url_for('personal')))
+        resp.set_cookie('str_id', str(finded['_id']), max_age=60)
+        return resp
     return render_template('login.html',title = 'Вход', error=error, year=datetime.now().year)
+
+@app.route('/personal')
+def personal():
+    from pymongo import MongoClient
+    from bson.objectid import ObjectId
+    client = MongoClient('localhost', 27017)
+    db = client.webusers
+    collection = db.users
+    str_id = request.cookies.get('str_id')
+    finded = collection.find_one({'_id': ObjectId(str_id)})
+    return render_template('personal_account.html', username = str(finded['fio']))
+
 
 def addCrowd(name,description,amounttoget,org,donate):
     addcrowdposttodb(name, description, org, int(amounttoget),donate)
@@ -282,6 +254,7 @@ def getPayments(crowd_id_str):
         link.append(i)
     return 
     
+
 
 
 app.run(debug=True, host="0.0.0.0")
