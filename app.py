@@ -113,7 +113,7 @@ def addCrowd(name,description,amounttoget,org):
     description = request.args.get('description')
     amounttoget = request.args.get('amounttoget')
     org = request.args.get('obj')
-    addcrowdposttodb(name, description, org, int(amounttoget))
+    addcrowdposttodb(name, description, org, amounttoget)
     
 
 
@@ -121,6 +121,7 @@ def addCrowd(name,description,amounttoget,org):
 def crowdForm():
     if request.method == 'POST':
         addCrowd(request.form['name'],request.form['description'],request.form['amounttoget'],request.form['org'])
+        return redirect(url_for('home'))
     return render_template('crowdform.html', year=datetime.now().year)
 
 
