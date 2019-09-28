@@ -208,7 +208,8 @@ def about():
 def showComments(crowdObject_id):
     from pymongo import MongoClient
     client = MongoClient('localhost', 27017)
-    collection = client.comments.forum
+    db = client.comments
+    collection = db.forum
     comments = []
     for i in collection.find({'crowdid': crowdObject_id}):
         comments.append(i)
