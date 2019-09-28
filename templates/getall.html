@@ -1,0 +1,59 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+
+<ul class="list-unstyled">
+    {% for post in posts %}
+    <li>
+        <div class="thumbnail" style="width: 1140px" style="height: 450px" onclick="location.href=''" style="margin: 15px" float: left>
+            <img src="" style="width: 500px;height: 280px;" float:left>
+            <h4 id="thumbnail-label"><a style="margin: 15px"
+                href="/crowd/{{ post._id }}"
+                    target="_blank">{{post.name}}</a></h4>
+                    <div class="thumbnail-description smaller" style="margin: 15px">{{ post.description}}</div>
+                    <p><a class="btn btn-default" href="/crowd/{{ post._id }}" style="margin: 5px">Узнать больше &raquo;</a></p>
+                    <p></p>
+            <div class="progress">
+                <div class="progress-bar" role="progressbar" style="width:{{post.persent}}%" aria-valuenow={{post.persent}} aria-valuemin="0" aria-valuemax="100" style="margin: 15px" style="color: lawngreen">               
+                </div>
+            </div>
+        </div>
+    </li>
+    {% endfor %}
+</ul>
+
+<div class="row">
+    <div class="col-md-2">&nbsp;</div>
+    <div class="col-md-8">
+        <div class="row space-16">&nbsp;</div>
+        <div class="row">
+                {% for post in posts %}
+            <div class="col-sm-4">
+                    <div class="thumbnail">
+                        <div class="caption text-center"
+                            onclick="location.href=''">
+                            <div class="position-relative">
+                                <img src="" style="width:72px;height:72px;" />
+                            </div>
+                            <h4 id="thumbnail-label"><a
+                                href="/crowd/{{ post._id }}"
+                                    target="_blank">{{post.name}}</a></h4>
+                            <p><i class="glyphicon glyphicon-user light-red lighter bigger-120"></i>{{post.org}}&nbsp;</p>
+                            <div class="thumbnail-description smaller">{{ post.description}}</div>
+                        </div>
+                        <div class="caption card-footer text-center">
+                            <ul class="list-inline">
+                                    <p><a class="btn btn-default" href="/crowd/{{ post._id }}">Узнать больше &raquo;</a></p>
+                            </ul>
+                        </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="col-md-2">&nbsp;</div>
+    </div>
+</div>
+<p>Use this area to provide additional information.</p>
+
+{% endblock %}
