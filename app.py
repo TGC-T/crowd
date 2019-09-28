@@ -220,7 +220,7 @@ def addComments():
     db = client.comments
     collection = db.forum
     post_id = collection.insert_one(comment)
-    return post_id
+    return json({'Result':True})
 
 @app.route('/api/comments/showcoments')
 def showComments():
@@ -232,7 +232,7 @@ def showComments():
     collection = client.comments.forum
     comments = []
     for i in collection.find({'crowdid':ObjectId(crowd)}):
-        comments.append[i]
+        comments.append(i)
     return render_template('forum.html', comments = comments)
     
 
