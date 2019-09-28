@@ -30,7 +30,7 @@ def userRegister():
         username = request.form['username']
         password = request.form['password']
         fio = request.form['fio']
-        post = {'username': username, 'fio': fio, 'password': password, 'isadmin':False}
+        post = {'usermail': username, 'fio': fio, 'password': password, 'isadmin':False}
         from pymongo import MongoClient
         client = MongoClient('localhost', 27017)
         db = client.webusers
@@ -47,7 +47,7 @@ def login():
         from pymongo import MongoClient
         client = MongoClient('localhost', 27017)
         db = client.webusers
-        post = {'email' : request.form['username']}
+        post = {'username' : request.form['username']}
         collection = db.users
         finded = collection.find_one(post)
         resp = make_response(redirect(url_for('personal')))
@@ -252,8 +252,18 @@ def getPayments(crowd_id_str):
     link = []
     for i in collection.find({'crowd_id':crowd_id_str}):
         link.append(i)
-    return 
+    return render_template('payments.html', )
     
+@app.route('/api/account/<id_str>')
+def getAccount(id_str):
+    from bson.objectid import ObjectId
+    from pymongo import MongoClient
+    client = MongoClient('localhost', 27017)
+    db = client.webusers
+    collection = db.users
+    _id = ObjectId(id_str)
+    person = collection.find_one({'_id':_id})
+    return render_template('account.html', username = person['fio'], isAdmin = person['isadmin'])
 
 
 
