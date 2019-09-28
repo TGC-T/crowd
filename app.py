@@ -30,7 +30,7 @@ def userRegister():
         username = request.form['username']
         password = request.form['password']
         fio = request.form['fio']
-        post = {'usermail': username, 'fio': fio, 'password': password, 'isadmin':False}
+        post = {'usernail': username, 'fio': fio, 'password': password, 'isadmin':False}
         from pymongo import MongoClient
         client = MongoClient('localhost', 27017)
         db = client.webusers
@@ -215,8 +215,7 @@ def showComments(crowdObject_id):
         comments.append(i)
     return comments
 
-
-@app.route('/crowd/<id_str>')
+@app.route('/crowd/<id_str>', methods=['GET', 'POST'])
 def showCrowd(id_str):
     from bson.objectid import ObjectId
     from pymongo import MongoClient
@@ -225,6 +224,9 @@ def showCrowd(id_str):
     collection = db.tasks
     crowd_id = ObjectId(id_str)
     finded = collection.find_one({"_id": crowd_id})
+    if request.method == 'POST':
+        pass
+
     return render_template('crowd.html', importance=finded['importance'], donate=finded['donate'], 
     year=datetime.now().year, comments=showComments(crowd_id), title=finded['name'], name=finded['name'], 
     description=finded['description'], need=finded['amounttoget'], wegot=finded['wegot'], 

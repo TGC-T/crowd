@@ -14,8 +14,9 @@
 <a href="{{ donate }}"" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Пожертвовать</a>
 <p>importance {{importance}}</p>
 
-<form action="textarea1.php" method="post">
-    <p><textarea rows="10" placeholder="Введите ваш комментарий" cols="45" style="border: 1px solid #adadad; border-radius: 4px; padding: 5px;" name="text"></textarea></p>
+<form action="" method="post">
+    <p><textarea rows="10" placeholder="Введите ваш комментарий" value="{{
+        request.form.textarea }}"  cols="45" style="max-width: 100%; border: 1px solid #adadad; border-radius: 4px; padding: 5px;" name="text"></textarea></p>
     <input class="btn btn-primary btn-lg active" type="submit" value="Отправить">
   </form>
 {% for com in comments %}
