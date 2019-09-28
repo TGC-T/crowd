@@ -1,69 +1,56 @@
-<!DOCTYPE html>
-<html>
-	<head>
-	    <meta charset="utf-8">
-	    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	    <title>{{ title }} -1 My Flask Application</title>
-	    <link rel="stylesheet" type="text/css" href="../static/content/bootstrap.min.css">
-	    <link rel="stylesheet" type="text/css" href="../static/content/site.css">
-	    <link rel="stylesheet" type="text/css" href="../static/content/style.css">
-	    <script src="static/scripts/modernizr-2.6.2.js"></script>
-	</head>
-	<body>
-		<div class="navbar navbar-inverse navbar-fixed-top">
-	        <div class="container">
-	            <div class="navbar-header">
-	                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-	                    <span class="icon-bar"></span>
-	                    <span class="icon-bar"></span>
-	                    <span class="icon-bar"></span>
-	                </button>
-	                <a href="" class="navbar-brand">Application name</a>
-	            </div>
-	            <div class="navbar-collapse collapse">
-	                <ul class="nav navbar-nav">
-	                    <li><a href="{{ url_for('home') }}">Home</a></li>
-	                    <li><a href="{{ url_for('about') }}">About</a></li>
-	                    <li><a href="{{ url_for('contact') }}">Contact</a></li>
-	                </ul>
-	            </div>
-	        </div>
+{% extends "layout.html" %}
+
+{% block content %}
+<div>
+	<div class="my-container first-container">
+		<div
+			style="background-image: url('static/content/img1.jpg'); background-position: center; height: 100%; width: 100%;">
 		</div>
-		<div class="wrapper">
-			<div class="my-container first-container">
-				<div style="background-image: url('../images/img1.jpg'); background-position: center; height: 100%; width: 100%;"></div>
-			</div>
-			<div class="my-container">
-				<div class="image" style="float: right; background-image: url('../images/img2.jpg');"></div>
-				<div class="text">
-					<p>Многие думают, что Lorem Ipsum - взятый с потолка псевдо-латинский набор слов, но это не совсем так. Его корни уходят в один фрагмент классической латыни 45 года н.э., то есть более двух тысячелетий назад. Ричард МакКлинток, профессор латыни из колледжа Hampden-Sydney, штат Вирджиния, взял одно из самых странных слов в Lorem Ipsum, "consectetur", и занялся его поисками в классической латинской литературе. В результате он нашёл неоспоримый первоисточник Lorem Ipsum в разделах 1.10.32 и 1.10.33 книги "de Finibus Bonorum et Malorum" ("О пределах добра и зла"), написанной Цицероном в 45 году н.э. Этот трактат по теории этики был очень популярен в эпоху Возрождения. Первая строка Lorem Ipsum, "Lorem ipsum dolor sit amet..", происходит от одной из строк в разделе 1.10.32</p>
-				</div>
-				<div class="clearfix"></div>
-			</div>
-			<div class="my-container">
-				<div class="image" style="float: left; background-image: url('../images/img3.jpg');"></div>
-				<div class="text">
-					<p>Многие думают, что Lorem Ipsum - взятый с потолка псевдо-латинский набор слов, но это не совсем так. Его корни уходят в один фрагмент классической латыни 45 года н.э., то есть более двух тысячелетий назад. Ричард МакКлинток, профессор латыни из колледжа Hampden-Sydney, штат Вирджиния, взял одно из самых странных слов в Lorem Ipsum, "consectetur", и занялся его поисками в классической латинской литературе. В результате он нашёл неоспоримый первоисточник Lorem Ipsum в разделах 1.10.32 и 1.10.33 книги "de Finibus Bonorum et Malorum" ("О пределах добра и зла"), написанной Цицероном в 45 году н.э. Этот трактат по теории этики был очень популярен в эпоху Возрождения. Первая строка Lorem Ipsum, "Lorem ipsum dolor sit amet..", происходит от одной из строк в разделе 1.10.32</p>
-				</div>
-			</div>
-			<div class="heading" style="margin-bottom: 10px;">
-				<div class="col1">
-					<img src="../images/geolocation.svg" width="60px"></img>
-					<p>Text</p>
-				</div>
-				<div class="col2">
-					<img src="../images/transparent.png" width="60px"></img>
-					<p>Text</p>
-				</div>
-				<div class="col3">
-					<img src="../images/circle.svg" width="60px"></img>
-					<p>Text</p>
-				</div>
-			</div>
-			<div class="my-container bottom-text" style="background-image: url('../images/img4.jpg');">
-				<div class="bottom-button"><a href="#">BUTTON</a></div>
-				<p>Многие думают, что Lorem Ipsum - взятый с потолка псевдо-латинский набор слов, но это не совсем так. Его корни уходят в один фрагмент классической латыни 45 года н.э., то есть более двух тысячелетий назад. Ричард МакКлинток, профессор латыни из колледжа Hampden-Sydney, штат Вирджиния, взял одно из самых странных слов в Lorem Ipsum, "consectetur", и занялся его поисками в классической латинской литературе. В результате он нашёл неоспоримый первоисточник Lorem Ipsum в разделах 1.10.32 и 1.10.33 книги "de Finibus Bonorum et Malorum" ("О пределах добра и зла"), написанной Цицероном в 45 году н.э. Этот трактат по теории этики был очень популярен в эпоху Возрождения. Первая строка Lorem Ipsum, "Lorem ipsum dolor sit amet..", происходит от одной из строк в разделе 1.10.32</p>
-			</div>
+	</div>
+	<div class="my-container">
+		<div class="image" style="float: right; background-image: url('static/content/img2.jpg');"></div>
+		<div class="text">
+			<p>ВДОХ — краудфандинговая платформа социально значимых проектов и идей. </p>
 		</div>
-	</body>
-</html>
+		<div class="clearfix"></div>
+	</div>
+	<div class="my-container">
+		<div class="image" style="float: left; background-image: url('static/content/img3.jpg');"></div>
+		<div class="text">
+			<p>Многие думают, что Lorem Ipsum - взятый с потолка псевдо-латинский набор слов, но это не совсем так. Его
+				корни уходят в один фрагмент классической латыни 45 года н.э., то есть более двух тысячелетий назад.
+				Ричард МакКлинток, профессор латыни из колледжа Hampden-Sydney, штат Вирджиния, взял одно из самых
+				странных слов в Lorem Ipsum, "consectetur", и занялся его поисками в классической латинской литературе.
+				В результате он нашёл неоспоримый первоисточник Lorem Ipsum в разделах 1.10.32 и 1.10.33 книги "de
+				Finibus Bonorum et Malorum" ("О пределах добра и зла"), написанной Цицероном в 45 году н.э. Этот трактат
+				по теории этики был очень популярен в эпоху Возрождения. Первая строка Lorem Ipsum, "Lorem ipsum dolor
+				sit amet..", происходит от одной из строк в разделе 1.10.32</p>
+		</div>
+	</div>
+	<div class="heading" style="margin-bottom: 10px;">
+		<div class="col1">
+			<img src="static/content/geolocation.svg" width="60px"></img>
+			<p>Text</p>
+		</div>
+		<div class="col2">
+			<img src="static/content/transparent.png" width="60px"></img>
+			<p>Text</p>
+		</div>
+		<div class="col3">
+			<img src="static/content/circle.svg" width="60px"></img>
+			<p>Text</p>
+		</div>
+	</div>
+	<div class="my-container bottom-text" style="background-image: url('static/content/img4.jpg');">
+		<div class="bottom-button"><a href="{{ url_for('getall') }}">Присоединяйся</a></div>
+		<p><b>Многие думают, что Lorem Ipsum - взятый с потолка псевдо-латинский набор слов, но это не совсем так. Его
+			корни уходят в один фрагмент классической латыни 45 года н.э., то есть более двух тысячелетий назад. Ричард
+			МакКлинток, профессор латыни из колледжа Hampden-Sydney, штат Вирджиния, взял одно из самых странных слов в
+			Lorem Ipsum, "consectetur", и занялся его поисками в классической латинской литературе. В результате он
+			нашёл неоспоримый первоисточник Lorem Ipsum в разделах 1.10.32 и 1.10.33 книги "de Finibus Bonorum et
+			Malorum" ("О пределах добра и зла"), написанной Цицероном в 45 году н.э. Этот трактат по теории этики был
+			очень популярен в эпоху Возрождения. Первая строка Lorem Ipsum, "Lorem ipsum dolor sit amet..", происходит
+			от одной из строк в разделе 1.10.32</b></p>
+	</div>
+</div>
+{% endblock %}
