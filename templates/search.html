@@ -5,9 +5,31 @@
 
   <form action="" method="post">
     <input type="text" placeholder="" name="search" value="{{
-      request.form.search }}">
+      request.form.search }}" style="width: 600px">
     <input class="btn btn-default" type="submit" value="Поиск">
   </form>
+  <li class="dropdown">
+    <a href="#" data-toggle="dropdown" class="dropdown-toggle">
+      Сортировать по...<b class="caret"></b>
+    </a>
+    <ul class="dropdown-menu">
+      <li><a href="#">По имени</a></li>
+      <li><a href="#">По необходимой сумме</a></li>
+      <li><a href="#">По собранной сумме</a></li>
+      <li><a href="#">По проценту</a></li>
+      <li><a href="#">По важности</a></li>
+    </ul>
+  </li>
+  <li class="dropdown">
+      <a href="#" data-toggle="dropdown" class="dropdown-toggle">
+        Порядок вывода<b class="caret"></b>
+      </a>
+      <ul class="dropdown-menu">
+        <li><a href="#">По возростанию</a></li>
+        <li><a href="#">По убыванию</a></li>
+
+      </ul>
+    </li>
 
 {% for i in posts %}
 <p><a href="/crowd/{{i.str_id}}">{{i.name}}</a></p>
