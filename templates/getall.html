@@ -5,17 +5,17 @@
 <ul class="list-unstyled">
     {% for post in posts %}
     <li>
-        <div class="thumbnail" style="width: 60%" style="height: 250px" onclick="location.href=''" style="margin: 0 15px 15px 0">
-            <img src="" style="width: 80px;height: 80px" float:left>
+        <div class="thumbnail" style="width: 750px" style="height: 250px" onclick="location.href=''" style="margin: 15px">
+            <img src="" style="width: 200px;height: 100px">
             <div class="progress">
-                <div class="progress-bar" role="progressbar" style="width: 60%" aria-valuenow={{post.wegot}}% aria-valuemin="0" aria-valuemax="100" float:left>               
+                <div class="progress-bar" role="progressbar" style="width: 60%" aria-valuenow={{post.wegot}}% aria-valuemin="0" aria-valuemax="100" style="margin: 15px">               
                 </div>
             </div>
-            <h4 id="thumbnail-label"><a
+            <h4 id="thumbnail-label"><a style="margin: 15px"
                 href="/crowd/{{ post._id }}"
                     target="_blank">{{post.name}}</a></h4>
                     <div class="thumbnail-description smaller">{{ post.description}}</div>
-                    <p><a class="btn btn-default" href="/crowd/{{ post._id }}">Узнать больше &raquo;</a></p>
+                    <p><a class="btn btn-default" href="/crowd/{{ post._id }}" style="margin: 5px">Узнать больше &raquo;</a></p>
         </div>
     </li>
     {% endfor %}
