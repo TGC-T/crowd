@@ -256,7 +256,7 @@ def getPayments(crowd_id_str):
     link = []
     for i in collection.find({'crowd_id':crowd_id_str}):
        link.append(user_collection.find_one({'_id': ObjectId(i['user_id'])}))
-    return 
+    return render_template('payments.html', posts = link)
     
 @app.route('/api/account/<id_str>')
 def getAccount(id_str):
