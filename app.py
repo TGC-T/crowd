@@ -134,7 +134,7 @@ def getall():
     result = []
     for i in collection.find({}):
         post = {'name': i['name'], 'description': i['description'],
-                'amounttoget': i['amounttoget'], 'wegot': i['wegot'], '_id': i['_id'], 'org': i['org'], 'persent':int(i['wegot']/i['amounttoget'] * 100)}
+                'amounttoget': i['amounttoget'], 'wegot': i['wegot'], '_id': i['_id'], 'org': i['org'], 'persent':int(i['wegot']/i['amounttoget'] * 100), 'image':i['image']}
         result.append(post)
     return render_template('getall.html', year=datetime.now().year, posts=result, title="Список всех краудов")
 
