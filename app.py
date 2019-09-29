@@ -73,8 +73,8 @@ def personal():
     return render_template('personal_account.html', title='Личный кабинет', isadmin=finded['isadmin'], userType=userType, fio=str(finded['fio']))
 
 
-def addCrowd(name,description,amounttoget,org,donate,image):
-    addcrowdposttodb(name, description, org, int(amounttoget),donate, image)
+def addCrowd(name, description, amounttoget, org, donate, image):
+    addcrowdposttodb(name, description, org, int(amounttoget), donate, image)
     
 
 
