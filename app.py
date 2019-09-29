@@ -155,7 +155,7 @@ def getTop3Crowd():
     return posts
 
 
-@app.route('/')
+@app.route('/home')
 def home():
     """Renders the home page."""
     return render_template(
@@ -275,6 +275,23 @@ def getAccount(id_str):
     _id = ObjectId(id_str)
     person = collection.find_one({'_id':_id})
     return render_template('account.html', username = person['fio'], isAdmin = person['isadmin'])
+
+@app.route('/api/account/<id_str>')
+def getPaymentsAcc(id_str):
+    from bson.objectid import ObjectId
+    from pymongo import MongoClient
+    client = MongoClient('localhost', 27017)
+    db = client.posts
+    collection = db.payments
+    person = []
+    for i in collection.find({'user_id':ObjectId(id_str)}):
+        person.append(i)
+    return person
+    
+@app.route('/')
+def renderTitle():
+    return render_template('title.html')
+
 
 
 

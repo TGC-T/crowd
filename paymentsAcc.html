@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<br><br>
+<ul class="list-unstyled">
+    {% for post in person %}
+    <li>
+        <div class="thumbnail" style="width: 1140px" style="height: 450px" onclick="location.href=''" style="margin: 15px" float: left>
+            <h4 id="thumbnail-label"><a style="margin: 15px"
+                href="/crowd/{{ post._id }}"
+                    target="_blank">{{post.}}</a></h4>
+                    <div class="thumbnail-description smaller" style="margin: 15px">{{ post.description}}</div>
+                    <p><a class="btn btn-default" href="/crowd/{{ post.crowd_id }}" style="margin: 5px">Узнать больше &raquo;</a></p>
+            <div class="progress">
+                <div class="progress-bar" role="progressbar" style="width:{{post.persent}}%" aria-valuenow={{post.persent}} aria-valuemin="0" aria-valuemax="100" style="margin: 15px" style="color: lawngreen">               
+                {{post.payment}}</div>
+            </div>
+        </div>
+    </li>
+    {% endfor %}
+</ul>
+
+
+{% endblock %}
