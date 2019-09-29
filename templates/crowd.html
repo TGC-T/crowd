@@ -12,8 +12,8 @@
 <div class="progress">
         <div class="progress-bar" role="progressbar" style="width: {{persent}}%;" aria-valuenow="{{persent}}" aria-valuemin="0" aria-valuemax="100">{{persent}}%</div>
 </div>
-<a href="{{ donate }}"" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Пожертвовать</a>
 
+<iframe src="https://money.yandex.ru/quickpay/shop-widget?writer=seller&targets={{ name }}&targets-hint=&default-sum=300&button-text=14&payment-type-choice=on&fio=on&comment=on&hint=%D0%A7%D1%82%D0%BE%20%D1%81%D0%BF%D0%BE%D0%B4%D0%B2%D0%B8%D0%B3%D0%B0%D0%B5%D1%82%20%D0%B2%D0%B0%D1%81%20%D0%B4%D0%B5%D0%BB%D0%B0%D1%82%D1%8C%20%D0%B4%D0%BE%D0%B1%D1%80%D1%8B%D0%B5%20%D0%BF%D0%BE%D1%81%D1%82%D1%83%D0%BF%D0%BA%D0%B8%3F&successURL=&quickpay=shop&account=410019521887654" width="423" height="313" frameborder="0" allowtransparency="true" scrolling="no"></iframe>
 
 <form action="" method="post">
         <input type="text" placeholder="Никнейм, если вы уже залогинены то это поле необязательно" style="border: 1px solid #adadad; border-radius: 4px; padding: 5px;"
@@ -23,11 +23,11 @@
         request.form.textarea }}"  cols="45" style="max-width: 100%; border: 1px solid #adadad; border-radius: 4px; padding: 5px;" name="text"></textarea></p>
     <input class="btn btn-primary btn-lg active" type="submit" value="Отправить">
   </form>
+  
 {% for com in comments %}
         <h2>{{com.author}}</h2>
         <p>
                 {{com.comment}}
         <hr noshade="true" size="300px">
 {% endfor %}
-
 {% endblock %}
