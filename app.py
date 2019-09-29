@@ -67,9 +67,9 @@ def personal():
     str_id = request.cookies.get('str_id')
     finded = collection.find_one({'_id': ObjectId(str_id)})
     if finded['isadmin']:
-        userType = 'админ'
+        userType = 'это админкий аккаунт'
     else:
-        userType = 'обычный пользователь'
+        userType = 'это аккаунт обычного пользователя'
     return render_template('personal_account.html', title='Личный кабинет', isadmin=finded['isadmin'], userType=userType, fio=str(finded['fio']))
 
 
@@ -86,6 +86,18 @@ def crowdForm():
         return redirect(url_for('home'))
     return render_template('crowdform.html', year=datetime.now().year)
 
+@app.route('/crowd/remove', methods=['GET', 'POST'])
+def crowdFormDelete():
+    if request.method == 'POST':
+        from pymongo import MongoClient
+        from bson.objectid import ObjectId
+        client = MongoClient('localhost', 27017)
+        db = client.posts
+        collection = db.tasks
+        collection.find_one_and_delete({'_id':ObjectId(request.form['objectid'])})
+        return render_template('crowdformdelete.html', result = 'Ура!')
+
+    return render_template('crowdformdelete.html')
 
 @app.route('/api/crowd/set/<object_id>')
 def modCrowd(object_id):

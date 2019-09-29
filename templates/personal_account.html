@@ -1,13 +1,12 @@
 {% extends "layout.html" %}
 
 {% block content %}
-<br><br>
-<h2>{{ title }}</h2>
-<br><br>
+<br>
 <h3> Привет {{fio}}!</h3>
-
+<p>{{userType}}</p>
 {% if isadmin %}
     <a class="btn btn-primary" href="/crowd/add" role="button"> <span class="glyphicon glyphicon-floppy-open"></span> Добавть крауд</a>
+    <a class="btn btn-danger" href="/crowd/remove" role="button"> <span class="glyphicon glyphicon-floppy-remove"></span> Удалить крауд</a>
 {% endif %}
 
 {% endblock %}

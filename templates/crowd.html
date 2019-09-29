@@ -8,7 +8,7 @@
 <p>Необходимо собрать {{ need }}</p>
 <p>Собранно {{ wegot }}</p>
 <p>Осталось {{need - wegot}}</p>
-<p>importance {{importance}}</p>
+<p>Важность проекта {{importance}} из 5.</p>
 <div class="progress">
         <div class="progress-bar" role="progressbar" style="width: {{persent}}%;" aria-valuenow="{{persent}}" aria-valuemin="0" aria-valuemax="100">{{persent}}%</div>
 </div>
@@ -16,7 +16,7 @@
 
 
 <form action="" method="post">
-        <input type="text" placeholder="Никнейм" style="border: 1px solid #adadad; border-radius: 4px; padding: 5px;"
+        <input type="text" placeholder="Никнейм, если вы уже залогинены то это поле необязательно" style="border: 1px solid #adadad; border-radius: 4px; padding: 5px;"
         name="username" value="{{
           request.form.username }}">
     <p><textarea rows="10" placeholder="Введите ваш комментарий" value="{{

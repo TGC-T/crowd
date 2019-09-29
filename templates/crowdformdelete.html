@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<br><br>
+<div class="container">
+    <form method="post">
+        <input type="text" placeholder="objectid" name="objectid"
+            style="border: 1px solid #adadad; border-radius: 4px; padding: 5px;" value="{{
+        request.form.objectid }}"><br><br>
+        <input class="btn btn-default" type="submit"
+            style="border: 1px solid #adadad; border-radius: 4px; padding: 5px;" value="Отправить">
+    </form>
+    {% if result %}
+    <p> {{ result }}</p>
+    {% endif %}
+
+    {% endblock %}
