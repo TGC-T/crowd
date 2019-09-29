@@ -10,12 +10,12 @@ app = Flask(__name__)
 
 
 
-def addcrowdposttodb(name: str, description: str, org: str, amounttoget: float, donate:str, image):
+def addcrowdposttodb(name: str, description: str, org: str, amounttoget: float, donate:str, image, importance):
     '''
     Добавляет краудфанд в базу с нулевым балансом
     '''
     post = {'name': name, 'description': description, 'donate':donate , 'amounttoget': amounttoget, 'org': org,
-            'wegot': 0, 'iscomplete': False, 'image':image}
+            'wegot': 0, 'iscomplete': False, 'image':image, 'importance':importance}
     from pymongo import MongoClient
     client = MongoClient('localhost', 27017)
     db = client.posts
@@ -73,8 +73,8 @@ def personal():
     return render_template('personal_account.html', title='Личный кабинет', isadmin=finded['isadmin'], userType=userType, fio=str(finded['fio']))
 
 
-def addCrowd(name, description, amounttoget, org, donate, image):
-    addcrowdposttodb(name, description, org, int(amounttoget), donate, image)
+def addCrowd(name, description, amounttoget, org, donate, image, importance):
+    addcrowdposttodb(name, description, org, int(amounttoget), donate, image, importance)
     
 
 
@@ -82,7 +82,7 @@ def addCrowd(name, description, amounttoget, org, donate, image):
 def crowdForm():
     if request.method == 'POST':
         addCrowd(request.form['name'], request.form['description'],
-                 request.form['amounttoget'], request.form['org'], request.form['donate'], request.form['image'])
+                 request.form['amounttoget'], request.form['org'], request.form['donate'], request.form['image'], request.form['importance'])
         return redirect(url_for('home'))
     return render_template('crowdform.html', year=datetime.now().year)
 
