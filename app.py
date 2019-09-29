@@ -10,12 +10,12 @@ app = Flask(__name__)
 
 
 
-def addcrowdposttodb(name: str, description: str, org: str, amounttoget: float, donate:str):
+def addcrowdposttodb(name: str, description: str, org: str, amounttoget: float, donate:str, image):
     '''
     Добавляет краудфанд в базу с нулевым балансом
     '''
     post = {'name': name, 'description': description, 'donate':donate , 'amounttoget': amounttoget, 'org': org,
-            'wegot': 0, 'iscomplete': False}
+            'wegot': 0, 'iscomplete': False, 'image':image}
     from pymongo import MongoClient
     client = MongoClient('localhost', 27017)
     db = client.posts
@@ -66,11 +66,15 @@ def personal():
     collection = db.users
     str_id = request.cookies.get('str_id')
     finded = collection.find_one({'_id': ObjectId(str_id)})
-    return render_template('personal_account.html', username = str(finded['fio']))
+    if finded['isadmin']:
+        userType = 'админ'
+    else:
+        userType = 'обычный пользователь'
+    return render_template('personal_account.html', title='Личный кабинет', isadmin=finded['isadmin'], userType=userType, fio=str(finded['fio']))
 
 
-def addCrowd(name,description,amounttoget,org,donate):
-    addcrowdposttodb(name, description, org, int(amounttoget),donate)
+def addCrowd(name,description,amounttoget,org,donate,image):
+    addcrowdposttodb(name, description, org, int(amounttoget),donate, image)
     
 
 
@@ -78,7 +82,7 @@ def addCrowd(name,description,amounttoget,org,donate):
 def crowdForm():
     if request.method == 'POST':
         addCrowd(request.form['name'], request.form['description'],
-                 request.form['amounttoget'], request.form['org'], request.form['donate'])
+                 request.form['amounttoget'], request.form['org'], request.form['donate'], request.form['image'])
         return redirect(url_for('home'))
     return render_template('crowdform.html', year=datetime.now().year)
 
@@ -228,10 +232,15 @@ def showCrowd(id_str):
         client = MongoClient('localhost', 27017)
         db = client.comments
         collection = db.forum
-        comment =request.form['text']
-        name = request.form['username']
-        collection.insert_one({'author':name,'comment':comment,'crowdid':crowd_id})
-    return render_template('crowd.html', importance=finded['importance'], donate=finded['donate'], 
+        users = client.webusers.users
+        comment = request.form['text']
+        name = request.cookies.get('str_id')
+        if name == None:
+            name = request.form['username']
+        else:
+            name = users.find_one({'_id' : ObjectId(name)})['fio']
+        collection.insert_one({'author':  name,'comment':comment,'crowdid':crowd_id})
+    return render_template('crowd.html', importance=finded['importance'], image=finded['image'], donate=finded['donate'],
     year=datetime.now().year, comments=showComments(crowd_id), title=finded['name'], name=finded['name'], 
     description=finded['description'], need=finded['amounttoget'], wegot=finded['wegot'], 
     persent=int(finded['wegot']/finded['amounttoget'] * 100)
